@@ -9,13 +9,13 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /api/uploads:/api/uploads
+      - ./volumes/api/uploads:/api/uploads
     networks:
       - cms
     depends_on:
       - "mongodb"
     environment:
-      - HOST=0.0.0.0
+      - HOST=${HOST}
       - MONGO_URI=mongodb
   mongodb:
     image: mongo:latest
