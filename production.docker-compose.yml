@@ -1,0 +1,36 @@
+version: "3"
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: ${APP_NAME}_node
+    command: yarn start
+    ports:
+      - "3000:3000"
+    volumes:
+      - /api/uploads:/api/uploads
+    networks:
+      - cms
+    depends_on:
+      - "mongodb"
+    environment:
+      - HOST=0.0.0.0
+      - MONGO_URI=mongodb
+  mongodb:
+    image: mongo:latest
+    container_name: ${APP_NAME}_mongo
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    ports:
+      - "27017:27017"
+    networks:
+      - cms
+
+networks:
+  cms:
+    driver: bridge
+volumes:
+  mongodb:
+  mongodb_config:
