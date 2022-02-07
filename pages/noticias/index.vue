@@ -10,7 +10,7 @@
         <div v-if="posts">
           <Posts :posts="posts" />
           <div v-if="posts.length === 0" class="alert text-center">Nenhuma notícia encontrada</div>
-          <share />
+          <!-- <share /> -->
         </div>
       </b-container>
     </section>

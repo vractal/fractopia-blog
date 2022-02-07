@@ -16,7 +16,7 @@
         <div class="dynamic-content mt-4">
           <div v-if="post.content" v-html="post.content" />
           <Documents :documents="post.docs" />
-          <share />
+          <!-- <share /> -->
         </div>
       </b-container>
     </section>
