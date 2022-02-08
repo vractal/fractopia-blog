@@ -1,6 +1,7 @@
 version: "3"
 services:
   app:
+    # user: $USER
     build:
       dockerfile: ./Dockerfile
       context: .
@@ -9,7 +10,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./volumes/api/uploads:/api/uploads
+      - ${DOCKER_VOLUMES_DATA_PATH}/${APP_NAME}/uploads:/usr/src/app/api/uploads
     networks:
       - cms
     depends_on:
@@ -21,8 +22,8 @@ services:
     image: mongo:latest
     container_name: ${APP_NAME}_mongo
     volumes:
-      - mongodb:/data/db
-      - mongodb_config:/data/configdb
+      - ${DOCKER_VOLUMES_DATA_PATH}/${APP_NAME}/mongodb_data:/data/db
+      - ${DOCKER_VOLUMES_DATA_PATH}/${APP_NAME}/mongodb_config:/data/configdb
     ports:
       - "27017:27017"
     networks:
@@ -31,6 +32,4 @@ services:
 networks:
   cms:
     driver: bridge
-volumes:
-  mongodb:
-  mongodb_config:
+
