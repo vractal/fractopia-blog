@@ -16,7 +16,6 @@
             </b-button>
           </div>
           <b-row class="mt-5">
-            
           </b-row>
         </b-container>
       </section>

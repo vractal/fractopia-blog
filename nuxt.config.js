@@ -23,7 +23,7 @@ export default {
     { src: "~/plugins/v-calendar", ssr: false },
     { src: "~/plugins/v-money.js", ssr: false },
     { src: "~/plugins/vue-the-mask.js", ssr: false },
-    { src: "~/plugins/vue-goodshare.js", ssr: false },
+    // { src: "~/plugins/vue-goodshare.js", ssr: false },
     { src: "~/plugins/datepicker", ssr: false }
   ],
   components: true,
@@ -31,7 +31,6 @@ export default {
     "@nuxtjs/eslint-module",
     "@nuxtjs/moment",
     "@nuxtjs/fontawesome",
-    "@nuxtjs/google-analytics"
   ],
   modules: [
     // Doc: https://bootstrap-vue.js.org
@@ -112,9 +111,9 @@ export default {
       ]
     }
   },
-  googleAnalytics: {
-    id: "UA-185563105-2"
-  },
+  // googleAnalytics: {
+  //   id: "UA-185563105-2"
+  // },
   proxy: {
     pathRewrite: {
       "^/api/": "/"
