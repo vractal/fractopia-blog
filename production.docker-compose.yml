@@ -7,29 +7,32 @@ services:
       context: .
     container_name: ${APP_NAME}_node
     command: yarn start
-    ports:
-      - "3000:3000"
     volumes:
       - ${DOCKER_VOLUMES_DATA_PATH}/${APP_NAME}/uploads:/usr/src/app/api/uploads
-    networks:
-      - cms
     depends_on:
       - "mongodb"
     environment:
-      - HOST=0.0.0.0
-      - MONGO_URI=mongodb
+      - HOST=${HOST}
+      - MONGO_URI=${MONGO_URI}
+    network_mode: host
+    # ports:
+    #   - "3000:3000"
+    # networks:
+    #   - cms
   mongodb:
     image: mongo:latest
     container_name: ${APP_NAME}_mongo
     volumes:
       - ${DOCKER_VOLUMES_DATA_PATH}/${APP_NAME}/mongodb_data:/data/db
       - ${DOCKER_VOLUMES_DATA_PATH}/${APP_NAME}/mongodb_config:/data/configdb
-    ports:
-      - "27017:27017"
-    networks:
-      - cms
+    network_mode: host
 
-networks:
-  cms:
-    driver: bridge
+    # ports:
+    #   - "27017:27017"
+    # networks:
+    #   - cms
+
+# networks:
+#   cms:
+#     driver: host
 
