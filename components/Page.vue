@@ -8,11 +8,15 @@
     />
     <div v-if="page" class="page">
       <b-container>
-        <div :class="{'edit-page': editMode}">
+        <div :class="{'edit-page': editMode}" class="mb-5 pt-3">
           <template v-for="(component, index) in components">
-            <DynamicComponent v-if="component.type" :id="'tooltip-target-' + index" :key="index" class="dynamic-component" :class="{'active-component': editComponent === index}" :type="component.type" :attrs="component.attrs" @click="editComponent = index" v-html="component.content" />
-            <b-tooltip v-if="editMode" :key="'tooltip-' + index" :target="'tooltip-target-' + index" triggers="hover">
-              Clique para editar
+            <template v-if="component.type">
+              <DynamicBanners v-if="component.type === 'dynamic-banners'" :key="index" class="dynamic-component" :class="{'active-component': editComponent === index}" :attrs="{ id: 'dynamic-component-' + index, ...component.attrs }" @click="editComponent = index" />
+              <DynamicCard v-if="component.type === 'dynamic-card'" :key="index" class="dynamic-component" :class="{'active-component': editComponent === index}" :attrs="{ id: 'dynamic-component-' + index, ...component.attrs }" @click="editComponent = index" />
+              <DynamicComponent v-else :id="'dynamic-component-' + index" :key="index" class="dynamic-component" :class="{'active-component': editComponent === index}" :type="component.type" :attrs="component.attrs" @click="editComponent = index" v-html="component.content" />
+            </template>
+            <b-tooltip v-if="editMode" :key="'tooltip-' + index" :target="'dynamic-component-' + index" triggers="hover" variant="primary">
+              <b-btn variant="primary" @click="editComponent = index">Editar este elemento</b-btn>
             </b-tooltip>
           </template>
         </div>
@@ -83,7 +87,6 @@ export default {
     save() {
       this.page.components = this.components
       this.$axios.$put('/api/pages/' + this.page._id, { components: this.components })
-      this.$toast.success('Página salva!')
     },
     closeComponent(save) {
       this.editComponent = null
