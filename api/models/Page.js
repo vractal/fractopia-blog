@@ -24,7 +24,8 @@ const PageSchema = mongoose.Schema({
     ref: 'Attachment',
     autopopulate: true
   }],
-  components: [Object]
+  components: [Object],
+  sections: [Object]
 }, {
   timestamps: true,
   toJSON: { virtuals: true }
