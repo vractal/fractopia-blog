@@ -7,18 +7,9 @@
       :description="page.description"
     />
     <div class="page">
-      <dl-layout v-model="sections" :edit-mode="editMode" :default-colors="['#f25530', '#a25661']" @save="save" />
+      <dl-layout v-model="sections" :can-edit="canEdit" :default-colors="['#f25530', '#a25661']" :start-editing="$route.query.edit" @save="save" />
     </div>
-    <p v-if="page.description">{{ page.description }}</p>
-    <div v-if="!showContent" class="text-center mb-5">
-      <b-button v-if="page.content || (page.images && page.images.length) || (page.docs && page.docs.length)" variant="secondary" @click="showMore = !showMore">
-        Saiba mais
-      </b-button>
-    </div>
-    <div v-if="showMore || showContent" class="dynamic-content mt-4">
-      <div v-html="page.content" />
-      <Documents :documents="page.docs" />
-    </div>
+    <Documents :documents="page.docs" />
   </div>
 </template>
 <script>
@@ -51,7 +42,7 @@ export default {
     }
   },
   computed: {
-    editMode() {
+    canEdit() {
       return (
         this.$auth.user &&
         (this.$auth.user.role === 'admin' || this.$auth.user.role === 'super')

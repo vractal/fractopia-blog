@@ -1,69 +1,65 @@
 <template>
-  <div>
-    <div v-if="enabled">
-      <b-sidebar
-        :visible="true"
-        title="Editor de layout"
-        right
-        shadow
-        no-header-close
-      >
-        <div class="px-3 py-3">
-          <div class="mb-3">
-            <div v-if="active.section !== null">
-              <dl-section-editor
-                v-model="sections[active.section]"
-                :title="'Seção ' + (active.section + 1)"
-                @input="changed"
-                @remove="removeSection"
-                @close="setSection(null)"
-              />
-            </div>
-            <div v-else class="mb-3">
-              <draggable v-model="sections" tag="div" @end="changed">
-                <b-btn
-                  v-for="(section, i) in sections"
-                  :key="'section-' + i"
-                  block
-                  variant="primary"
-                  class="text-left d-flex justify-content-between mb-1"
-                  @click="setSection(i)"
-                >
-                  <span>
-                    <small><b-icon-grip-horizontal /></small>
-                    Seção {{ i + 1 }}
-                  </span>
-                  <span>
-                    <b-icon-chevron-right />
-                  </span>
-                </b-btn>
-              </draggable>
-              <b-btn block class="mt-3 text-left d-flex justify-content-between" @click="addSection">
-                <span>
-                  Adicionar seção
-                </span>
-                <b-icon-plus />
-              </b-btn>
-            </div>
-          </div>
-          <div v-if="hasChanged" class="mb-4">
-            <p class="text-danger mb-3">
-              <small>
-                <b-icon-exclamation-octagon class="mr-2" />
-                Você tem alterações não salvas
-              </small>
-            </p>
-            <b-btn size="lg" variant="primary" block @click="save()">
-              <b-icon-check /> Salvar alterações
-            </b-btn>
-          </div>
-          <b-alert :show="savedAlert" variant="success">
-            <b-icon-check-circle-fill class="mr-2" /> Alterações salvas!
-          </b-alert>
+  <b-sidebar
+    :visible="showEditor"
+    title="Editor de layout"
+    right
+    shadow
+    @hidden="$emit('close')"
+  >
+    <div class="px-3 py-3">
+      <div class="mb-3">
+        <div v-if="active.section !== null">
+          <dl-section-editor
+            v-model="sections[active.section]"
+            :title="'Seção ' + (active.section + 1)"
+            @input="changed"
+            @remove="removeSection"
+            @close="setSection(null)"
+          />
         </div>
-      </b-sidebar>
+        <div v-else class="mb-3">
+          <draggable v-model="sections" tag="div" @end="changed">
+            <b-btn
+              v-for="(section, i) in sections"
+              :key="'section-' + i"
+              block
+              variant="primary"
+              class="text-left d-flex justify-content-between mb-1"
+              @click="setSection(i)"
+            >
+              <span>
+                <small><b-icon-grip-horizontal /></small>
+                Seção {{ i + 1 }}
+              </span>
+              <span>
+                <b-icon-chevron-right />
+              </span>
+            </b-btn>
+          </draggable>
+          <b-btn block class="mt-3 text-left d-flex justify-content-between" @click="addSection">
+            <span>
+              Adicionar seção
+            </span>
+            <b-icon-plus />
+          </b-btn>
+        </div>
+      </div>
+      <div v-if="hasChanged" class="mb-4">
+        <p class="text-danger mb-3">
+          <small>
+            <b-icon-exclamation-octagon class="mr-2" />
+            Você tem alterações não salvas
+          </small>
+        </p>
+        <b-btn size="lg" variant="primary" block @click="save()">
+          <b-icon-check /> Salvar alterações
+        </b-btn>
+      </div>
+      <b-alert :show="savedAlert" variant="success">
+        <b-icon-check-circle-fill class="mr-2" /> Alterações salvas!
+      </b-alert>
     </div>
-  </div>
+  </b-sidebar>
 </template>
 
 <script>
@@ -81,19 +77,27 @@ export default {
       type: Array,
       default: () => []
     },
-    enabled: {
+    show: {
       type: Boolean,
       default: false
     }
   },
+
   data() {
     return {
       sections: [],
       hasChanged: false,
-      savedAlert: false
+      savedAlert: false,
+      showEditor: false
+    }
+  },
+  watch: {
+    show() {
+      this.showEditor = this.show
     }
   },
   created() {
+    this.showEditor = this.show
     this.sections = this.value
   },
   methods: {

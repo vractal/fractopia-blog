@@ -1,7 +1,21 @@
 <template>
-  <div class="vue-dynamic-layout">
-    <dl-sections v-model="sections" />
-    <dl-editor v-model="sections" :enabled="editMode" @save="save" @input="changed" />
+  <div class="vue-dynamic-layout" :class="{ editing: editMode }">
+    <dl-sections v-model="sections" :edit-mode="editMode" />
+    <dl-editor
+      v-model="sections"
+      :show="editMode"
+      @save="save"
+      @input="changed"
+      @close="showEditor = false"
+    />
+    <b-btn
+      v-if="canEdit && !showEditor"
+      class="dl-editor-btn px-3"
+      variant="primary"
+      @click="showEditor = true"
+    >
+      <b-icon-pencil-square class="mr-2" /> Editar página
+    </b-btn>
   </div>
 </template>
 <script>
@@ -18,7 +32,11 @@ export default {
       type: Array,
       default: () => []
     },
-    editMode: {
+    canEdit: {
+      type: Boolean,
+      default: false
+    },
+    startEditing: {
       type: Boolean,
       default: false
     },
@@ -34,7 +52,13 @@ export default {
         section: null,
         column: null,
         component: null
-      }
+      },
+      showEditor: this.startEditing
+    }
+  },
+  computed: {
+    editMode() {
+      return this.canEdit && this.showEditor
     }
   },
   watch: {
@@ -47,7 +71,7 @@ export default {
       this.sections = this.value
     }
   },
-  provide () {
+  provide() {
     return {
       active: this.active,
       setActive: this.setActive,
@@ -74,20 +98,29 @@ export default {
 }
 </script>
 <style>
-  .vue-dynamic-layout .vue-dynamic-editable {
-    cursor: pointer;
-  }
+.vue-dynamic-layout.editing .vue-dynamic-editable {
+  cursor: pointer;
+}
 
-  .vue-dynamic-layout .vue-dynamic-editable:hover {
-    outline: 1px dashed #b0b0b0;
-  }
+.vue-dynamic-layout.editing .vue-dynamic-editable:hover {
+  outline: 1px dashed #b0b0b0;
+}
 
-  .vue-dynamic-layout .vue-dynamic-editable[data-active="true"] {
-    outline: 1px dashed #b0b0b0;
-  }
+.vue-dynamic-layout.editing .vue-dynamic-editable[data-active="true"] {
+  outline: 1px dashed #b0b0b0;
+}
 
-  .vue-dynamic-layout .dl-form {
-    background-color: #fff;
-    border-radius: 10px;
-  }
+.vue-dynamic-layout .dl-form {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.vue-dynamic-layout .dl-editor-btn {
+  position: fixed;
+  right: 0;
+  top: 20%;
+  border-radius: 20px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 </style>

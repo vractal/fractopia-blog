@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div :class="{'edit-page': editMode}" class="py-3">
-      <template v-for="(component, index) in components">
-        <template v-if="component.type">
-          <component :is="'dl-' + component.category" :id="'dl-component-' + index" :key="'dl-component-' + index" :data="component" :data-active="active.column === index" @click="edit(index)" />
-          <!-- <dl-component-renderer :id="'dl-component-' + index" :key="'dl-component-' + index" class="dl-component" :class="{'active-component': editComponent === index}" :category="component.category" :attrs="component.attrs" @click="editComponent = index" @click.self="edit(index)" v-html="component.content" /> -->
-        </template>
+    <template v-for="(component, index) in components">
+      <template v-if="component.type">
+        <component :is="'dl-' + component.category" :id="'dl-component-' + index" :key="'dl-component-' + index" :data="component" :data-active="active.column === index" @click="edit(index)" />
+        <!-- <dl-component-renderer :id="'dl-component-' + index" :key="'dl-component-' + index" class="dl-component" :class="{'active-component': editComponent === index}" :category="component.category" :attrs="component.attrs" @click="editComponent = index" @click.self="edit(index)" v-html="component.content" /> -->
       </template>
-    </div>
+    </template>
   </div>
 </template>
 <script>
