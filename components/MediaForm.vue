@@ -134,7 +134,6 @@
           </b-button>
         </div>
       </div>
-      <pre>{{ form }}</pre>
     </b-form>
   </ValidationObserver>
 </template>

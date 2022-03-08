@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'DlBanners',
   props: {
     attrs: {
       type: Object,

@@ -29,11 +29,14 @@
 </template>
 
 <script>
+import componentMixins from './mixins'
+
 export default {
-  props: {
-    attrs: {
-      type: Object,
-      default: () => {}
+  name: 'DlCard',
+  mixins: [componentMixins],
+  computed: {
+    attrs() {
+      return this.data.attrs
     }
   }
 }

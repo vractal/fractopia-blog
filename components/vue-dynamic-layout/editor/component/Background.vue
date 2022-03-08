@@ -21,6 +21,8 @@
 </template>
 <script>
 export default {
+  name: 'DlBackgroundEditor',
+  inject: ['defaultColors'],
   props: {
     value: {
       type: String,

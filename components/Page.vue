@@ -7,7 +7,7 @@
       :description="page.description"
     />
     <div class="page">
-      <DynamicSections v-model="page.sections" @input="save" />
+      <dl-layout v-model="sections" :edit-mode="editMode" :default-colors="['#f25530', '#a25661']" @save="save" />
     </div>
     <p v-if="page.description">{{ page.description }}</p>
     <div v-if="!showContent" class="text-center mb-5">
@@ -22,7 +22,12 @@
   </div>
 </template>
 <script>
+import variables from '../assets/css/variables.sass'
+import DlLayout from './vue-dynamic-layout/Layout.vue'
 export default {
+  components: {
+    DlLayout
+  },
   props: {
     slug: {
       type: String,
@@ -39,19 +44,31 @@ export default {
   },
   data () {
     return {
+      variables,
       page: null,
-      showMore: false
+      showMore: false,
+      sections: []
+    }
+  },
+  computed: {
+    editMode() {
+      return (
+        this.$auth.user &&
+        (this.$auth.user.role === 'admin' || this.$auth.user.role === 'super')
+      )
     }
   },
   async created() {
     this.page = await this.$axios.$get('/api/pages/' + this.slug)
-    if (!this.page) {
+    if (this.page) {
+      this.sections = this.page.sections
+    } else {
       this.$emit('notFound')
     }
   },
   methods: {
     save() {
-      this.$axios.$put('/api/pages/' + this.page._id, { sections: this.page.sections })
+      this.$axios.$put('/api/pages/' + this.page._id, { sections: this.sections })
     }
   }
 }
