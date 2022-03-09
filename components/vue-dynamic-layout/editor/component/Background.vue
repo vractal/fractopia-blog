@@ -11,9 +11,17 @@
       <b-icon-check-circle v-if="background === variant" />
       <b-icon-check v-else :variant="variant" />
     </b-btn>
+    <b-btn
+      size="sm"
+      style="border: 1px solid #f0f0f0; font-size: 10px;"
+      variant="outline-primary"
+      @click="setVariant(null)"
+    >
+      Transparente
+    </b-btn>
     <b-form-input
       type="color"
-      style="width: 40px;"
+      style="width: 30px; height: 25px; border: 1px solid #505050; outline: 0; padding: 0; margin: 0; margin-top: 3px; border-radius: 3px;"
       class="d-inline"
       @input="setVariant"
     />

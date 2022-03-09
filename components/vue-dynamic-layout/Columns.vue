@@ -6,7 +6,7 @@
         :id="'dl-column-' + index"
         :key="'column-' + index"
         v-bind="{...column.attrs, ...backgroundAttrs(column.background)}"
-        class="vue-dynamic-editable py-3"
+        class="vue-dynamic-editable dl-column py-3"
         :data-active="active.column === index"
         @click.self="edit(index)"
       >

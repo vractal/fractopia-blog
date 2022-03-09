@@ -113,6 +113,7 @@ export default {
     addSection(section) {
       this.sections.push({
         background: null,
+        background_fluid: null,
         attrs: {
           fluid: false
         },

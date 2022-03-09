@@ -97,30 +97,42 @@ export default {
   }
 }
 </script>
-<style>
-.vue-dynamic-layout.editing .vue-dynamic-editable {
-  cursor: pointer;
-}
+<style lang="scss">
+.vue-dynamic-layout {
+  &.editing {
+    .vue-dynamic-editable {
+      cursor: pointer;
 
-.vue-dynamic-layout.editing .vue-dynamic-editable:hover {
-  outline: 1px dashed #b0b0b0;
-}
+      &.dl-section[data-active="true"] {
+        outline: 1px dashed #b0b0b0;
 
-.vue-dynamic-layout.editing .vue-dynamic-editable[data-active="true"] {
-  outline: 1px dashed #b0b0b0;
-}
+        .dl-column[data-active="true"] {
+          outline: 1px dashed #b0b0b0;
 
-.vue-dynamic-layout .dl-form {
-  background-color: #fff;
-  border-radius: 10px;
-}
+          .dl-component[data-active="true"] {
+            outline: 1px dashed #b0b0b0;
+          }
+        }
+      }
 
-.vue-dynamic-layout .dl-editor-btn {
-  position: fixed;
-  right: 0;
-  top: 20%;
-  border-radius: 20px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+      &:hover {
+        outline: 1px dashed #b0b0b0;
+      }
+    }
+  }
+
+  .dl-form {
+    background-color: #fff;
+    border-radius: 10px;
+  }
+
+  .dl-editor-btn {
+    position: fixed;
+    right: 0;
+    top: 20%;
+    border-radius: 20px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }
 </style>

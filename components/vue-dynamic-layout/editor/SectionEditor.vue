@@ -47,8 +47,8 @@
         </div>
         <div class="px-3 py-3 dl-form">
           <div>
-            <b-form-group label="Esta sessão ocupa a linha toda?">
-              <b-form-checkbox v-model="form.attrs.fluid" class="d-inline-block" @input="changed" />
+            <b-form-group label="O conteúdo deve ocupar toda a largura da tela?">
+              <b-form-checkbox v-model="form.attrs.fluid" switch class="d-inline-block" @input="changed" />
               {{ form.attrs.fluid ? "Sim" : "Não" }}
             </b-form-group>
             <b-form-group label="Cor de fundo">
@@ -56,6 +56,10 @@
                 v-model="form.background"
                 @input="changed"
               />
+            </b-form-group>
+            <b-form-group v-if="form.background" label="A cor de fundo deve ocupar toda a largura da tela?">
+              <b-form-checkbox v-model="form.background_fluid" switch class="d-inline-block" @input="changed" />
+              {{ form.background_fluid ? "Sim" : "Não" }}
             </b-form-group>
           </div>
           <div class="text-right">
@@ -112,6 +116,7 @@ export default {
     return {
       form: {
         background: null,
+        background_fluid: null,
         attrs: {
           fluid: false
         },

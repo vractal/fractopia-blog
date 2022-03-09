@@ -1,20 +1,19 @@
 <template>
   <div>
-    <div>
-      <template v-for="(section, index) in sections">
+    <template v-for="(section, index) in sections">
+      <div :key="'section-' + index" v-bind="section.background_fluid ? backgroundAttrs(section.background) : {}">
         <b-container
           :id="'dl-section-' + index"
-          :key="'section-' + index"
           v-bind="{...section.attrs, ...backgroundAttrs(section.background)}"
-          class="vue-dynamic-editable py-3"
+          class="vue-dynamic-editable dl-section py-3"
           :data-active="active.section === index"
 
           @click.self="edit(index)"
         >
           <dl-columns v-model="section.columns" :edit-mode="editMode" :section="index" />
         </b-container>
-      </template>
-    </div>
+      </div>
+    </template>
   </div>
 </template>
 <script>
