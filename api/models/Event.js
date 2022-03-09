@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const ObjectId = mongoose.Schema.Types.ObjectId
+const { downloadBase64 } = require('./utils')
 
 const EventSchema = mongoose.Schema({
   title: {
@@ -32,6 +33,10 @@ EventSchema.plugin(uniqueValidator, {
 })
 
 EventSchema.plugin(require('mongoose-autopopulate'))
+
+EventSchema.pre('save', function() {
+  this.content = downloadBase64(this.content, this.slug)
+})
 
 const Event = mongoose.models.Event || mongoose.model('Event', EventSchema)
 module.exports = Event

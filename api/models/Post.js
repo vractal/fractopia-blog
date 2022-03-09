@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const ObjectId = mongoose.Schema.Types.ObjectId
+const { downloadBase64 } = require('./utils')
 
 const PostSchema = mongoose.Schema({
   slug: {
@@ -37,6 +38,10 @@ PostSchema.plugin(uniqueValidator, {
 })
 
 PostSchema.plugin(require('mongoose-autopopulate'))
+
+PostSchema.pre('save', function() {
+  this.content = downloadBase64(this.content, this.slug)
+})
 
 const Post = mongoose.models.Post || mongoose.model('Post', PostSchema)
 module.exports = Post

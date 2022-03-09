@@ -6,7 +6,6 @@ const fixPageContents = async () => {
   const pages = await Page.find()
   for (const page of pages) {
     // eslint-disable-next-line no-console
-    console.log(page.content && (!page.sections || page.sections.length === 0))
     if (page.content && (!page.sections || page.sections.length === 0)) {
       page.sections.push({
         background: null,
@@ -32,6 +31,7 @@ const fixPageContents = async () => {
           }
         ]
       })
+      page.content = null
       await page.save()
     }
   }
@@ -39,6 +39,7 @@ const fixPageContents = async () => {
 
 const fix = async () => {
   await fixPageContents()
+  // await fixBlobImages()
   process.exit()
 }
 

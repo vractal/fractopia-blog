@@ -21,7 +21,7 @@ const DATABASE_URI =
 mongoose.set('useFindAndModify', false)
 
 if (isProduction) {
-  mongoose.set('debug', true)
+  mongoose.set('debug', false)
   mongoose.connect(DATABASE_URI, {
     keepAlive: 1,
     connectTimeoutMS: 30000,
