@@ -18,7 +18,7 @@
             <span class="text-danger">{{ errors[0] }}</span>
           </validation-provider>
         </b-form-group>
-        <div v-if="form.type === 'Vídeos'">
+        <div v-if="form.type === 'Vídeo'">
           <b-form-group label="Link do vídeo">
             <b-form-input v-model="form.url" @input="loadUrl" />
             <b-spinner v-if="loadingUrl" small label="Carregando vídeo" />
@@ -61,7 +61,7 @@
               </b-form-group>
             </b-col>
             <b-col md="6">
-              <b-form-group label="Editora/Fonte" description="Veículo de comunicação onde foi publicado">
+              <b-form-group label="Editora" description="Veículo de comunicação onde foi publicado">
                 <b-form-input v-model="form.publishing_house" />
               </b-form-group>
             </b-col>
@@ -116,7 +116,7 @@
               </b-form-group>
             </b-col>
             <b-col md="12">
-              <tags-form v-model="form.languages" :items="filters.languages" />
+              <tags-form v-model="form.languages" :items="filters.languages" label="Idiomas" />
             </b-col>
             <b-col md="12">
               <b-form-group label="Informações adicionais">

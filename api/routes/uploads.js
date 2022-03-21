@@ -169,11 +169,10 @@ router.post('/documents', [auth.authenticated, documentUploader.single('file')],
           }
         })
     }).catch(() => {})
-  } else {
-    const attachment = new Attachment({ type: 'documents', title: filename.replace(/\.[^/.]+$/, ''), url: path + filename })
-    await attachment.save()
-    res.status(201).send(attachment)
   }
+  const attachment = new Attachment({ type: 'documents', title: filename.replace(/\.[^/.]+$/, ''), url: path + filename })
+  await attachment.save()
+  res.status(201).send(attachment)
 })
 
 router.get('/oembed', async (req, res) => {

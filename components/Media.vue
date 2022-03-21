@@ -1,42 +1,73 @@
 <template>
   <div class="medias-component">
     <div>
-      <div v-if="(media.type.includes('Vídeo') || media.type.includes('Áudio')) && media.oembed" v-html="media.oembed" />
-      <Banners v-else-if="media.image" :items="[media.image]" />
+      <div
+        v-if="
+          (media.type.includes('Vídeo') || media.type.includes('Áudio')) &&
+            media.oembed
+        "
+        class="mb-4"
+        v-html="media.oembed"
+      />
+      <div v-if="media.image" class="mb-4">
+        <Banners :items="[media.image]" />
+      </div>
+
       <div>
         <b-badge v-if="media.type">{{ media.type }}</b-badge>
         <h3 class="mt-3">{{ media.title }}</h3>
-        <small>
-          Publicado em: {{ $moment(media.publishing_date).format(media.publishing_date_format || "DD/MM/YYYY") }} em
-        </small>
-        <b-badge v-for="category in media.categories" :key="category" class="mb-1 mr-1" variant="primary" :to="'/biblioteca?categoria=' + category"><strong><small>{{ category }}</small></strong></b-badge>
+        <div>
+          <small>
+            Publicado em:
+            {{
+              $moment(media.publishing_date).format(
+                media.publishing_date_format || "DD/MM/YYYY"
+              )
+            }}
+          </small>
+        </div>
+        <b-badge
+          v-for="category in media.categories"
+          :key="category"
+          class="mb-1 mr-1"
+          variant="primary"
+          :to="'/biblioteca?category=' + category"
+        >
+          <strong><small>{{ category }}</small></strong>
+        </b-badge>
         <p v-if="media.description" class="mt-3">{{ media.description }}</p>
         <p v-if="media.authors && media.authors.length">
-          Autores: <strong>{{ media.authors.map(author => author.first_name + ' ' + author.last_name ).join(', ') }}</strong>
+          Autores:
+          <strong>{{
+            media.authors
+              .map(author => [author.first_name, author.last_name].filter(name => name).join(' '))
+              .join(", ")
+          }}</strong>
         </p>
         <p v-if="media.organizers && media.organizers.length">
-          Organizadores: <strong>{{ media.organizers.map(organizer => organizer.first_name + ' ' + organizer.last_name ).join(', ') }}</strong>
+          Organizadores:
+          <strong>{{
+            media.organizers
+              .map(
+                organizer => [organizer.first_name, organizer.last_name].filter(name => name).join(' ')
+              )
+              .join(", ")
+          }}</strong>
         </p>
         <p v-if="media.publishing_house">
-          Editora/Fonte: <strong>{{ media.publishing_house }}</strong>
-        </p>
-        <p v-if="media.number">
-          Número da publicação: <strong>{{ media.number }}</strong>
+          Editora: <strong>{{ media.publishing_house }}</strong>
         </p>
         <p v-if="media.pages">
           Páginas: <strong>{{ media.pages }}</strong>
         </p>
         <p v-if="media.source">
-          Fonte: <strong>{{ media.source }}</strong>
-        </p>
-        <p v-if="media.volume">
-          Volume: <strong>{{ media.volume }}</strong>
+          Fonte: <strong>{{ sourceVolumeNumber }}</strong>
         </p>
         <!-- <p v-if="media.notes">
           Anotações: <strong>{{ media.notes }}</strong>
         </p> -->
         <p v-if="media.languages && media.languages.length">
-          Idiomas: <strong>{{ media.languages.join(', ') }}</strong>
+          Idiomas: <strong>{{ media.languages.join(", ") }}</strong>
         </p>
         <p v-if="media.institution">
           Instituição: <strong>{{ media.institution }}</strong>
@@ -50,16 +81,34 @@
         <p v-for="info in media.additional_infos" :key="info.label">
           {{ info.label }}: <strong>{{ info.value }}</strong>
         </p>
-        <p v-if="media.patent_legal_status">
+        <!-- <p v-if="media.patent_legal_status">
           Disponibilidade: <strong>{{ media.patent_legal_status }}</strong>
-        </p>
-        <b-button v-if="media.url" :href="media.url" target="_blank" variant="primary">Fonte</b-button>
+        </p> -->
+        <Tags :tags="media.tags" />
         <Documents :documents="media.docs" label="Baixar documentos" />
-        <div class="tags-component">
-          <b-button v-for="tag in media.tags" :key="tag._id" :to="'/biblioteca?tag=' + tag" size="sm" class="mr-1">
+        <b-button
+          v-if="media.url"
+          :href="media.url"
+          target="_blank"
+          variant="primary"
+          class="text-left d-block"
+        >
+          <div class="mb-1">
+            <small><b-icon-box-arrow-up-right /> Acessar documento </small>
+          </div>
+          {{ media.url }}
+        </b-button>
+        <!-- <div class="tags-component">
+          <b-button
+            v-for="tag in media.tags"
+            :key="tag._id"
+            :to="'/biblioteca?tag=' + tag"
+            size="sm"
+            class="mr-1"
+          >
             {{ tag }}
           </b-button>
-        </div>
+        </div> -->
         <share />
       </div>
     </div>
@@ -78,6 +127,15 @@ export default {
     media: {
       type: Object,
       default: () => {}
+    }
+  },
+  computed: {
+    sourceVolumeNumber() {
+      return [
+        this.media.source,
+        (this.media.volume ? 'v. ' + this.media.volume : null),
+        (this.media.number ? 'n. ' + this.media.number : null)
+      ].filter(i => i).join(', ')
     }
   }
 }

@@ -48,7 +48,7 @@
           </template>
           <template v-slot:cell(categories)="data">
             <div v-if="data.value && data.value.length">
-              <b-badge v-for="category in data.value" :key="category" variant="primary">{{ category }}</b-badge>
+              <b-badge v-for="category in data.value" :key="category" variant="primary" class="mr-1">{{ category }}</b-badge>
             </div>
           </template>
           <template v-slot:cell(actions)="data">

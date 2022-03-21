@@ -17,19 +17,37 @@
           </div>
           <b-row class="mt-5">
             <b-col md="6" class="mb-3">
-              <b-card img-src="~/assets/img/exposicoes.png" img-alt="Notícias" img-left class="bg-white">
+              <b-card
+                img-src="~/assets/img/exposicoes.png"
+                img-alt="Notícias"
+                img-left
+                class="bg-white"
+              >
                 <b-card-text>
                   <h5>Exposições</h5>
-                  <div class="text-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-                  <n-link to="/biblioteca?categoria=Exposições" class="stretched-link hidden" />
+                  <div class="text-primary">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                  <n-link
+                    to="/biblioteca?category=Exposições"
+                    class="stretched-link hidden"
+                  />
                 </b-card-text>
               </b-card>
             </b-col>
             <b-col>
-              <b-card to img-src="~/assets/img/midiateca.png" img-alt="Acervo" img-left class="bg-white">
+              <b-card
+                to
+                img-src="~/assets/img/midiateca.png"
+                img-alt="Acervo"
+                img-left
+                class="bg-white"
+              >
                 <b-card-text>
                   <h5>Midiateca</h5>
-                  <div class="text-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                  <div class="text-primary">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
                   <n-link to="/biblioteca" class="stretched-link hidden" />
                 </b-card-text>
               </b-card>
@@ -44,7 +62,7 @@
 <script>
 export default {
   computed: {
-    settings () {
+    settings() {
       return this.$store.state.settings
     }
   }
