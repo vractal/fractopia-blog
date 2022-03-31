@@ -3,50 +3,52 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 
 const MediaSchema = mongoose.Schema({
 
-  category: String, // TODO criar rotina para transferir este valor para categories e excluir este campo
-  categories: [String],
-  tags: [String],
-  title: {
+  type: String, // Tipo de documento
+  title: { // Título
     type: String,
     required: true
   },
-  description: {
+  category: String, // TODO criar rotina para transferir este valor para categories e excluir este campo
+  categories: [String], // Categorias
+  description: { // Descrição
     type: String
   },
-  image: {
-    type: ObjectId,
-    ref: 'Attachment',
-    autopopulate: true
+  authors: [Object], // Autores
+  publishing_date: Date, // Data de publicação
+  publishing_date_format: { // Formato da data de publicação
+    type: String,
+    default: 'DD/MM/YYYY'
   },
-  docs: [{
+  source: String, // Fonte
+  volume: String, // Volume
+  number: String, // Número da publicação
+  pages: String, // Páginas
+  organizers: [Object], // Organizadores
+  city: String, // Cidade
+  publishing_house: String, // Editora
+  institution: String, // Instituição
+  languages: [String], // Idiomas
+  url: String, // Link do arquivo
+  doi: String, // Identificador de Objeto Digital
+  patent_legal_status: String, // Disponibilidade
+  tags: [String], // Palavras-chave
+
+  additional_infos: [Object], // Informações adicionais
+
+  docs: [{ // Documentos em anexo
     type: ObjectId,
     ref: 'Attachment',
     autopopulate: true
   }],
-  url: String,
-  oembed: String,
-  oembed_thumb: String,
-  publishing_date: Date,
-  publishing_date_format: {
-    type: String,
-    default: 'DD/MM/YYYY'
+  image: { // Foto de capa
+    type: ObjectId,
+    ref: 'Attachment',
+    autopopulate: true
   },
-  publishing_house: String, // Editora
+  oembed: String, // Vídeo embedado
+  oembed_thumb: String, // Capa do vídeo embedado
 
-  additional_infos: [Object], // Informações adicionais
-  type: String, // Tipo de documento
-  authors: [Object], // Autores
-  city: String, // Cidade
-  organizers: [Object], // Organizadores
-  doi: String, // Identificador de Objeto Digital
-  institution: String, // Instituição
-  number: String, // Número da publicação
-  languages: [String], // Idiomas
-  notes: String, // Anotações
-  pages: String, // Páginas
-  patent_legal_status: String, // Disponibilidade
-  source: String, // Fonte
-  volume: String // Volume
+  notes: String // Anotações
 }, {
   timestamps: true,
   toJSON: { virtuals: true }
