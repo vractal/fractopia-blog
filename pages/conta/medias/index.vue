@@ -3,6 +3,9 @@
     <b-breadcrumb :items="breadcrumb" />
     <div>
       <div class="text-right mb-3">
+        <a href="/api/medias/export" target="_blank" class="mr-2" download>
+          <b-icon-file-spreadsheet /> Exportar
+        </a>
         <b-button variant="success" to="/conta/medias/new">
           <b-icon-plus /> Cadastrar
         </b-button>
