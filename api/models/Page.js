@@ -38,6 +38,7 @@ PageSchema.plugin(uniqueValidator, {
 })
 
 PageSchema.pre('save', function() {
+  this.content = downloadBase64(this.content, this.slug)
   if (this.sections && this.sections.length) {
     this.sections.forEach((section, sectionIndex) => {
       if (section.columns && section.columns.length) {
