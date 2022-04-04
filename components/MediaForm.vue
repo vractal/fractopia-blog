@@ -39,7 +39,12 @@
         <b-row>
           <b-col md="6">
             <b-form-group label="Data da publicação">
-              <b-form-datepicker v-model="form.publishing_date" />
+              <b-form-input
+                id="publishing_date"
+                v-model="form.publishing_date"
+                type="date"
+                autocomplete="off"
+              />
             </b-form-group>
           </b-col>
           <b-col md="6">
