@@ -12,127 +12,90 @@
         </validation-provider>
       </b-form-group>
       <div v-if="form.type">
+        <b-form-group v-if="form.type === 'Vídeo'" label="Link do vídeo">
+          <b-form-input v-model="form.url" @input="loadUrl" />
+          <b-spinner v-if="loadingUrl" small label="Carregando vídeo" />
+          <div v-if="form.oembed && !loadingUrl" class="pt-3" v-html="form.oembed" />
+        </b-form-group>
+
+        <b-form-group label="Título *">
+          <validation-provider v-slot="{ errors }" name="título" rules="required">
+            <b-form-input v-model="form.title" name="title" />
+            <span class="text-danger">{{ errors[0] }}</span>
+          </validation-provider>
+        </b-form-group>
         <b-form-group label="Categorias *">
           <validation-provider v-slot="{ errors }" name="categoria" rules="required">
             <b-form-checkbox-group v-model="form.categories" multiple :options="categories" />
             <span class="text-danger">{{ errors[0] }}</span>
           </validation-provider>
         </b-form-group>
-        <div v-if="form.type === 'Vídeo'">
-          <b-form-group label="Link do vídeo">
-            <b-form-input v-model="form.url" @input="loadUrl" />
-            <b-spinner v-if="loadingUrl" small label="Carregando vídeo" />
-            <div v-if="form.oembed && !loadingUrl" class="pt-3" v-html="form.oembed" />
-          </b-form-group>
-        </div>
-        <div v-else>
+        <b-form-group label="Descrição">
+          <b-form-textarea v-model="form.description" name="description" rows="8" max-rows="20" />
+        </b-form-group>
+        <b-form-group label="Autores">
+          <AuthorForm v-model="form.authors" />
+        </b-form-group>
+        <b-row>
+          <b-col md="6">
+            <b-form-group label="Data da publicação">
+              <b-form-datepicker v-model="form.publishing_date" />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group label="Formato da data">
+              <b-form-select v-model="form.publishing_date_format" :options="dateFormatOptions" />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-form-group label="Fonte">
+          <b-form-input v-model="form.source" />
+        </b-form-group>
+        <b-form-group label="Volume">
+          <b-form-input v-model="form.volume" />
+        </b-form-group>
+        <b-form-group label="Número da publicação">
+          <b-form-input v-model="form.number" />
+        </b-form-group>
+        <b-form-group label="Páginas">
+          <b-form-input v-model="form.pages" />
+        </b-form-group>
+        <b-form-group label="Organizadores">
+          <OrganizerForm v-model="form.organizers" />
+        </b-form-group>
+        <b-form-group label="Cidade">
+          <b-form-input v-model="form.city" />
+        </b-form-group>
+        <b-form-group label="Editora" description="Veículo de comunicação onde foi publicado">
+          <b-form-input v-model="form.publishing_house" />
+        </b-form-group>
+        <b-form-group label="Instituição">
+          <b-form-input v-model="form.institution" />
+        </b-form-group>
+        <tags-form v-model="form.languages" :items="filters.languages" label="Idiomas" />
+        <div v-if="form.type !== 'Vídeo'">
           <b-form-group label="Link">
             <b-form-input v-model="form.url" />
           </b-form-group>
           <Upload v-model="form.docs" label="Adicionar arquivos" type="documents" multiple edit-title @uploaded="fileUploaded" />
         </div>
-        <div>
-          <Upload v-model="form.image" type="images" :label="form.type === 'Fotografias' ? 'Enviar fotografia' : 'Foto de capa'" />
-          <b-row>
-            <b-col md="12">
-              <b-form-group label="Título *">
-                <validation-provider v-slot="{ errors }" name="título" rules="required">
-                  <b-form-input v-model="form.title" name="title" />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Descrição">
-                <b-form-textarea v-model="form.description" name="description" rows="8" max-rows="20" />
-              </b-form-group>
-            </b-col>
-            <b-col v-if="filters" md="12">
-              <tags-form v-model="form.tags" :items="filters.tags" />
-            </b-col>
-            <b-col md="6">
-              <b-form-group label="Data da publicação">
-                <b-form-datepicker v-model="form.publishing_date" />
-              </b-form-group>
-            </b-col>
-            <b-col md="6">
-              <b-form-group label="Formato da data">
-                <b-form-select v-model="form.publishing_date_format" :options="dateFormatOptions" />
-              </b-form-group>
-            </b-col>
-            <b-col md="6">
-              <b-form-group label="Editora" description="Veículo de comunicação onde foi publicado">
-                <b-form-input v-model="form.publishing_house" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Cidade">
-                <b-form-input v-model="form.city" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Autores">
-                <AuthorForm v-model="form.authors" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Organizadores">
-                <OrganizerForm v-model="form.organizers" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="DOI" description="Identificador de Objeto Digital">
-                <b-form-input v-model="form.doi" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Instituição">
-                <b-form-input v-model="form.institution" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Número da publicação">
-                <b-form-input v-model="form.number" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Páginas">
-                <b-form-input v-model="form.pages" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Disponibilidade">
-                <b-form-input v-model="form.patent_legal_status" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Fonte">
-                <b-form-input v-model="form.source" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Volume">
-                <b-form-input v-model="form.volume" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <tags-form v-model="form.languages" :items="filters.languages" label="Idiomas" />
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Informações adicionais">
-                <additional-info-form v-model="form.additional_infos" />
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Anotações" description="Este campo é reservado para anotações não aparece para os usuários">
-                <b-form-textarea v-model="form.notes" />
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-button class="mb-4 mt-4" type="submit" variant="success" block :disabled="invalid">
-            Salvar
-          </b-button>
-        </div>
+        <b-form-group label="DOI" description="Identificador de Objeto Digital">
+          <b-form-input v-model="form.doi" />
+        </b-form-group>
+        <b-form-group label="Disponibilidade">
+          <b-form-input v-model="form.patent_legal_status" />
+        </b-form-group>
+        <tags-form v-if="filters" v-model="form.tags" :items="filters.tags" />
+        <b-form-group label="Informações adicionais">
+          <additional-info-form v-model="form.additional_infos" />
+        </b-form-group>
+        <Upload v-model="form.image" type="images" :label="form.type === 'Fotografias' ? 'Enviar fotografia' : 'Foto de capa'" />
+        <b-form-group label="Anotações" description="Este campo é reservado para anotações não aparece para os usuários">
+          <b-form-textarea v-model="form.notes" />
+        </b-form-group>
+        <b-button class="mb-4 mt-4" type="submit" variant="success" block :disabled="invalid">
+          Salvar
+        </b-button>
       </div>
     </b-form>
   </ValidationObserver>
@@ -172,44 +135,32 @@ export default {
         YYYY: 'Ano'
       },
       form: {
-        categories: [],
-        tags: [],
-        title: null,
-        description: null,
-        image: null,
-        docs: [],
-        url: null,
-        oembed: null,
-        oembed_thumb: null,
-        publishing_date: null,
-        publishing_date_format: null,
-        publishing_house: null, // Editora
         type: null, // Tipo de documento
+        title: null, // Título
+        categories: [], // Categorias
+        description: null, // Descrição
         authors: [], // Autores
-        city: null, // Cidade
-        organizers: [], // Organizadores
-        doi: null, // Identificador de Objeto Digital
-        institution: null, // Instituição
-        number: null, // Número da publicação
-        languages: [], // Idiomas
-        notes: null, // Anotações
-        pages: null, // Páginas
-        patent_legal_status: null, // Disponibilidade
+        publishing_date: null, // Data de publicação
+        publishing_date_format: null, // Formato da data
         source: null, // Fonte
         volume: null, // Volume
-        additional_infos: [] // Informações adicionais
-        // category: '',
-        // docs: [],
-        // image: null,
-        // title: '',
-        // description: '',
-        // tags: [],
-        // url: '',
-        // oembed: '',
-        // oembed_thumb: null,
-        // publishing_date: null,
-        // publishing_date_format: 'DD/MM/YYYY',
-        // publishing_house: ''
+        number: null, // Número da publicação
+        pages: null, // Páginas
+        organizers: [], // Organizadores
+        city: null, // Cidade
+        publishing_house: null, // Editora
+        institution: null, // Instituição
+        languages: [], // Idiomas
+        url: null, // Link do aquivo
+        doi: null, // Identificador de Objeto Digital
+        patent_legal_status: null, // Disponibilidade
+        tags: [], // Palavras chave
+        additional_infos: [], // Informações adicionais
+        docs: [], // Documentos em anexo
+        image: null, // Foto de capa
+        oembed: null, // Vídeo embedado
+        oembed_thumb: null, // Capa do vídeo embedado
+        notes: null // Anotações
       }
     }
   },
