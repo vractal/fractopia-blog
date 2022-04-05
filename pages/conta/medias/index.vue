@@ -3,7 +3,7 @@
     <b-breadcrumb :items="breadcrumb" />
     <div>
       <div class="text-right mb-3">
-        <a href="/api/medias/export" target="_blank" class="mr-2" download>
+        <a target="_blank" class="mr-2" download :href="downloadUrl">
           <b-icon-file-spreadsheet /> Exportar
         </a>
         <b-button variant="success" to="/conta/medias/new">
@@ -83,6 +83,11 @@
 </template>
 <script>
 import features from '@/data/features'
+
+const objectToquery = (obj) => {
+  return Object.keys(obj).map(key => key + '=' + obj[key]).join('&')
+}
+
 export default {
   layout: 'conta',
   data () {
@@ -104,6 +109,9 @@ export default {
     }
   },
   computed: {
+    downloadUrl() {
+      return '/api/medias/export?' + objectToquery(this.filters)
+    },
     filterOptions() {
       return this.$store.state.media_filters
     },
