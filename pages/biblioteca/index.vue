@@ -114,7 +114,20 @@
                   >
                     em <strong>{{ filters.category }}</strong></span>
                 </div>
-                <Medias :medias="medias.data" />
+                <ul class="list-unstyled">
+                  <div v-for="m in medias.data" :key="m._id" tag="li" class="border-top py-3">
+                    <div v-if="m.image || m.oembed_thumb" class="mb-3">
+                      <b-img :src="m.image ? m.image.thumb : m.oembed_thumb" :alt="m.title" />
+                    </div>
+                    <b-badge v-if="m.type" class="mb-2">{{ m.type }}</b-badge>
+                    <p class="mb-0">
+                      <n-link :to="{ path: '/biblioteca', query: {...filters, media: m._id} }"><strong>{{ m.title }}</strong></n-link>
+                    </p>
+                    <p class="mb-0">
+                      <small>{{ m.description | truncate(200) }}</small>
+                    </p>
+                  </div>
+                </ul>
                 <b-pagination
                   v-if="medias.pagination.total > medias.pagination.per_page"
                   v-model="page"
@@ -124,7 +137,7 @@
                   @input="list"
                 />
               </div>
-              <Media v-if="media" :media="media" />
+              <Media v-if="media" :media="media" @close="close" />
             </b-col>
           </b-row>
           <span v-if="!medias && !media">
@@ -176,17 +189,21 @@ export default {
   },
   watch: {
     $route(to) {
-      Object.keys(this.filters).forEach(key => {
-        this.filters[key] = to.query[key] || ''
-      })
-      this.list()
+      if (this.$route.query.media) {
+        this.open(this.$route.query.media)
+      } else {
+        Object.keys(this.filters).forEach(key => {
+          this.filters[key] = to.query[key] || ''
+        })
+        this.list()
+      }
     }
   },
   async created() {
-    if (this.$route.params.id) {
-      this.get(this.$route.params.id)
-    } else {
-      this.list()
+    await this.list()
+
+    if (this.$route.query.media) {
+      this.open(this.$route.query.media)
     }
 
     if (!this.filterOptions) {
@@ -209,9 +226,11 @@ export default {
       this.page = 1
       this.$router.push({ path: '/biblioteca', query: this.filters })
     },
-    async get(id) {
-      this.medias = null
-      this.media = await this.$axios.$get('/api/medias/' + id)
+    open(id) {
+      this.media = this.medias.data.find(m => m._id === id)
+    },
+    close() {
+      this.$router.push({ path: '/biblioteca', query: this.filters })
     },
     clearFilters() {
       this.filters.search = ''

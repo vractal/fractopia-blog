@@ -1,5 +1,22 @@
 <template>
-  <div class="medias-component">
+  <b-modal
+    size="xl"
+    visible
+    class="medias-component"
+    hide-header
+    hide-footer
+    @hidden="$router.go(-1)"
+  >
+    <div class="text-right">
+      <b-btn
+        pill
+        style="float: right;"
+        variant="default"
+        @click="$router.go(-1)"
+      >
+        <b-icon-x />
+      </b-btn>
+    </div>
     <div>
       <div
         v-if="
@@ -40,7 +57,11 @@
           Autores:
           <strong>{{
             media.authors
-              .map(author => [author.first_name, author.last_name].filter(name => name).join(' '))
+              .map(author =>
+                [author.first_name, author.last_name]
+                  .filter(name => name)
+                  .join(" ")
+              )
               .join(", ")
           }}</strong>
         </p>
@@ -48,8 +69,10 @@
           Organizadores:
           <strong>{{
             media.organizers
-              .map(
-                organizer => [organizer.first_name, organizer.last_name].filter(name => name).join(' ')
+              .map(organizer =>
+                [organizer.first_name, organizer.last_name]
+                  .filter(name => name)
+                  .join(" ")
               )
               .join(", ")
           }}</strong>
@@ -115,10 +138,10 @@
     <br>
     <div class="text-center">
       <b-button variant="secondary" @click="$router.go(-1)">
-        Voltar à biblioteca
+        <b-icon-x /> Fechar
       </b-button>
     </div>
-  </div>
+  </b-modal>
 </template>
 
 <script>
@@ -133,9 +156,11 @@ export default {
     sourceVolumeNumber() {
       return [
         this.media.source,
-        (this.media.volume ? 'v. ' + this.media.volume : null),
-        (this.media.number ? 'n. ' + this.media.number : null)
-      ].filter(i => i).join(', ')
+        this.media.volume ? 'v. ' + this.media.volume : null,
+        this.media.number ? 'n. ' + this.media.number : null
+      ]
+        .filter(i => i)
+        .join(', ')
     }
   }
 }
