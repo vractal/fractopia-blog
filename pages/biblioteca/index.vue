@@ -5,7 +5,7 @@
       :links="[[title, '/biblioteca']]"
       :active="media.title"
       :description="media.description ? $options.filters.truncate(media.description, 160) : null"
-      :img="media.image ? baseUrl + media.image.url : null"
+      :img="media.image ? baseURL + media.image.url : null"
     />
     <Breadcrumb v-else :active="title" />
     <section id="content" class="content pt-4">
@@ -154,7 +154,7 @@
 import categories from '@/data/categories'
 import features from '@/data/features'
 export default {
-  async asyncData({ params, query, $axios }) {
+  async asyncData({ query, $axios }) {
     const medias = await $axios.$get('/api/medias', {
       params: { page: 1, ...query }
     })
@@ -180,7 +180,7 @@ export default {
     filterOptions() {
       return this.$store.state.media_filters
     },
-    baseUrl() {
+    baseURL() {
       return process.env.BASE_URL
     },
     settings() {
