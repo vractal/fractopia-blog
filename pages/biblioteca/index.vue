@@ -116,8 +116,8 @@
                 </div>
                 <ul class="list-unstyled">
                   <div v-for="m in medias.data" :key="m._id" tag="li" class="border-top py-3">
-                    <div v-if="m.image || m.oembed_thumb" class="mb-3">
-                      <b-img :src="m.image ? m.image.thumb : m.oembed_thumb" :alt="m.title" />
+                    <div v-if="m.image || m.oembed_thumb" class="mb-3 text-center text-md-left">
+                      <img :src="m.image ? m.image.thumb : m.oembed_thumb" :alt="m.title" style="max-width: 160px;">
                     </div>
                     <b-badge v-if="m.type" class="mb-2">{{ m.type }}</b-badge>
                     <p class="mb-0">
