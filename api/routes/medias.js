@@ -13,7 +13,10 @@ const mountQuery = req => {
   if (req.query.search) {
     query.$or = [
       { title: { $regex: req.query.search, $options: 'i' } },
-      { tags: { $regex: req.query.search, $options: 'i' } }
+      { tags: { $regex: req.query.search, $options: 'i' } },
+      { source: { $regex: req.query.search, $options: 'i' } },
+      { 'authors.first_name': { $regex: req.query.search, $options: 'i' } },
+      { 'authors.last_name': { $regex: req.query.search, $options: 'i' } }
     ]
   }
   if (req.query.type) {
