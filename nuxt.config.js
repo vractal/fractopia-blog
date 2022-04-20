@@ -24,14 +24,14 @@ export default {
     { src: '~/plugins/v-money.js', ssr: false },
     { src: '~/plugins/vue-the-mask.js', ssr: false },
     { src: '~/plugins/vue-goodshare.js', ssr: false },
-    { src: '~/plugins/datepicker', ssr: false }
+    { src: '~/plugins/datepicker', ssr: false },
+    { src: '~/plugins/analytics', ssr: false }
   ],
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/moment',
-    '@nuxtjs/fontawesome',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/fontawesome'
   ],
   modules: [
     // Doc: https://bootstrap-vue.js.org
@@ -111,9 +111,6 @@ export default {
         'faYoutubeSquare'
       ]
     }
-  },
-  googleAnalytics: {
-    id: 'UA-185563105-2'
   },
   proxy: {
     pathRewrite: {

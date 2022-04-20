@@ -115,6 +115,7 @@
           target="_blank"
           variant="primary"
           class="text-left d-block"
+          @click="trackDownload(media)"
         >
           <div class="mb-1">
             <small><b-icon-box-arrow-up-right /> Acessar documento </small>
@@ -161,6 +162,15 @@ export default {
       ]
         .filter(i => i)
         .join(', ')
+    }
+  },
+  methods: {
+    trackDownload(doc) {
+      this.$gtag.event('action', {
+        event_category: 'Biblioteca',
+        event_label: 'Baixar documento',
+        value: doc.title
+      })
     }
   }
 }
