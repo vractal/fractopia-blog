@@ -109,19 +109,6 @@
         </p> -->
         <Tags :tags="media.tags" />
         <Documents :documents="media.docs" label="Baixar documentos" />
-        <b-button
-          v-if="media.url"
-          :href="media.url"
-          target="_blank"
-          variant="primary"
-          class="text-left d-block"
-          @click="trackDownload(media)"
-        >
-          <div class="mb-1">
-            <small><b-icon-box-arrow-up-right /> Acessar documento </small>
-          </div>
-          {{ media.url }}
-        </b-button>
         <!-- <div class="tags-component">
           <b-button
             v-for="tag in media.tags"
