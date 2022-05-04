@@ -79,10 +79,7 @@
         </b-form-group>
         <tags-form v-model="form.languages" :items="filters.languages" label="Idiomas" />
         <div v-if="form.type !== 'Vídeo'">
-          <b-form-group label="Link">
-            <b-form-input v-model="form.url" />
-          </b-form-group>
-          <Upload v-model="form.docs" label="Adicionar arquivos" type="documents" multiple edit-title @uploaded="fileUploaded" />
+          <Upload v-model="form.docs" label="Documentos" btn-label="Adicionar documentos" type="documents" multiple edit-title @uploaded="fileUploaded" />
         </div>
         <b-form-group label="DOI" description="Identificador de Objeto Digital">
           <b-form-input v-model="form.doi" />

@@ -20,6 +20,12 @@ router.get('/', (req, res) => {
   })
 })
 
+router.post('/', auth.admin, async (req, res) => {
+  const attachment = new Attachment(req.body)
+  await attachment.save()
+  res.send(attachment)
+})
+
 router.get('/:id', (req, res) => {
   Attachment.findOne({
     slug: req.params.id
