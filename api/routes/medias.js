@@ -4,7 +4,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
 const auth = require('../config/auth')
-const mediaTypes = require('../../data/media-types.json')
 const Media = mongoose.model('Media')
 
 const mountQuery = req => {
@@ -256,7 +255,6 @@ router.get('/export', (req, res) => {
 
 router.get('/', async (req, res) => {
   const query = mountQuery(req)
-  console.log(query)
   const pagination = {
     total: await Media.count(query),
     per_page: req.query.per_page || 30,
@@ -285,29 +283,35 @@ router.get('/filters', (req, res) => {
     if (err) {
       res.status(422).send(err)
     } else {
+      const types = {}
       const tags = {}
       const categories = {}
       const languages = {}
       medias.forEach(media => {
         if (media && media.tags) {
-          media.tags.forEach(tag => {
-            tags[tag] = true
-          })
-        }
-        if (media && media.categories) {
-          media.categories.forEach(category => {
-            categories[category] = true
-          })
-        }
-        if (media && media.languages) {
-          media.languages.forEach(language => {
-            languages[language] = true
-          })
+          if (media.type) {
+            types[media.type] = true
+          }
+          if (media.tags) {
+            media.tags.forEach(tag => {
+              tags[tag] = true
+            })
+          }
+          if (media.categories) {
+            media.categories.forEach(category => {
+              categories[category] = true
+            })
+          }
+          if (media.languages) {
+            media.languages.forEach(language => {
+              languages[language] = true
+            })
+          }
         }
       })
 
       res.json({
-        tags: Object.keys(tags).sort((a, b) => {
+        types: Object.keys(types).sort((a, b) => {
           return a.localeCompare(b)
         }),
         categories: Object.keys(categories).sort((a, b) => {
@@ -316,7 +320,9 @@ router.get('/filters', (req, res) => {
         languages: Object.keys(languages).sort((a, b) => {
           return a.localeCompare(b)
         }),
-        types: mediaTypes
+        tags: Object.keys(tags).sort((a, b) => {
+          return a.localeCompare(b)
+        })
       })
     }
   })

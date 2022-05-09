@@ -82,6 +82,7 @@
                   </b-list-group>
                 </b-card>
                 <b-form-select
+                  v-if="filterOptions.categories && filterOptions.categories.length"
                   v-model="filters.category"
                   :options="filterOptions.categories"
                   class="mb-3 d-md-none"
@@ -94,6 +95,7 @@
                   </template>
                 </b-form-select>
                 <b-form-select
+                  v-if="filterOptions.languages && filterOptions.languages.length"
                   v-model="filters.language"
                   :options="filterOptions.languages"
                   class="mb-3"
