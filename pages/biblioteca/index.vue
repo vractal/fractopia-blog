@@ -39,6 +39,9 @@
                   </b-input-group>
                 </div>
                 <b-form-select
+                  v-if="
+                    filterOptions.types && filterOptions.types.length
+                  "
                   v-model="filters.type"
                   :options="filterOptions.types"
                   class="mb-3"
