@@ -5,33 +5,59 @@
         <validation-provider v-slot="{ errors }" name="tipo" rules="required">
           <b-form-select v-model="form.type" :options="types">
             <template v-slot:first>
-              <b-form-select-option value="" disabled>Selecione um tipo de publicação</b-form-select-option>
+              <b-form-select-option value="" disabled>
+                Selecione um tipo de publicação
+              </b-form-select-option>
             </template>
           </b-form-select>
           <span class="text-danger">{{ errors[0] }}</span>
         </validation-provider>
       </b-form-group>
       <div v-if="form.type">
-        <b-form-group v-if="form.type === 'Vídeo'" label="Link do vídeo">
+        <b-form-group
+          v-if="form.type === 'Vídeo' || form.type === 'Áudio'"
+          :label="'Link do ' + form.type"
+        >
           <b-form-input v-model="form.url" @input="loadUrl" />
           <b-spinner v-if="loadingUrl" small label="Carregando vídeo" />
-          <div v-if="form.oembed && !loadingUrl" class="pt-3" v-html="form.oembed" />
+          <div
+            v-if="form.oembed && !loadingUrl"
+            class="pt-3"
+            v-html="form.oembed"
+          />
         </b-form-group>
 
         <b-form-group label="Título *">
-          <validation-provider v-slot="{ errors }" name="título" rules="required">
+          <validation-provider
+            v-slot="{ errors }"
+            name="título"
+            rules="required"
+          >
             <b-form-input v-model="form.title" name="title" />
             <span class="text-danger">{{ errors[0] }}</span>
           </validation-provider>
         </b-form-group>
         <b-form-group label="Categorias *">
-          <validation-provider v-slot="{ errors }" name="categoria" rules="required">
-            <b-form-checkbox-group v-model="form.categories" multiple :options="categories" />
+          <validation-provider
+            v-slot="{ errors }"
+            name="categoria"
+            rules="required"
+          >
+            <b-form-checkbox-group
+              v-model="form.categories"
+              multiple
+              :options="categories"
+            />
             <span class="text-danger">{{ errors[0] }}</span>
           </validation-provider>
         </b-form-group>
         <b-form-group label="Descrição">
-          <b-form-textarea v-model="form.description" name="description" rows="8" max-rows="20" />
+          <b-form-textarea
+            v-model="form.description"
+            name="description"
+            rows="8"
+            max-rows="20"
+          />
         </b-form-group>
         <b-form-group label="Autores">
           <AuthorForm v-model="form.authors" />
@@ -49,7 +75,10 @@
           </b-col>
           <b-col md="6">
             <b-form-group label="Formato da data">
-              <b-form-select v-model="form.publishing_date_format" :options="dateFormatOptions" />
+              <b-form-select
+                v-model="form.publishing_date_format"
+                :options="dateFormatOptions"
+              />
             </b-form-group>
           </b-col>
         </b-row>
@@ -71,16 +100,29 @@
         <b-form-group label="Cidade">
           <b-form-input v-model="form.city" />
         </b-form-group>
-        <b-form-group label="Editora" description="Veículo de comunicação onde foi publicado">
+        <b-form-group
+          label="Editora"
+          description="Veículo de comunicação onde foi publicado"
+        >
           <b-form-input v-model="form.publishing_house" />
         </b-form-group>
         <b-form-group label="Instituição">
           <b-form-input v-model="form.institution" />
         </b-form-group>
-        <tags-form v-model="form.languages" :items="filters.languages" label="Idiomas" />
-        <div v-if="form.type !== 'Vídeo'">
-          <Upload v-model="form.docs" label="Documentos" btn-label="Adicionar documentos" type="documents" multiple edit-title @uploaded="fileUploaded" />
-        </div>
+        <tags-form
+          v-model="form.languages"
+          :items="filters.languages"
+          label="Idiomas"
+        />
+        <Upload
+          v-model="form.docs"
+          label="Documentos"
+          btn-label="Adicionar documentos"
+          type="documents"
+          multiple
+          edit-title
+          @uploaded="fileUploaded"
+        />
         <b-form-group label="DOI" description="Identificador de Objeto Digital">
           <b-form-input v-model="form.doi" />
         </b-form-group>
@@ -91,11 +133,26 @@
         <b-form-group label="Informações adicionais">
           <additional-info-form v-model="form.additional_infos" />
         </b-form-group>
-        <Upload v-model="form.image" type="images" :label="form.type === 'Fotografias' ? 'Enviar fotografia' : 'Foto de capa'" />
-        <b-form-group label="Anotações" description="Este campo é reservado para anotações não aparece para os usuários">
+        <Upload
+          v-model="form.image"
+          type="images"
+          :label="
+            form.type === 'Fotografias' ? 'Enviar fotografia' : 'Foto de capa'
+          "
+        />
+        <b-form-group
+          label="Anotações"
+          description="Este campo é reservado para anotações não aparece para os usuários"
+        >
           <b-form-textarea v-model="form.notes" />
         </b-form-group>
-        <b-button class="mb-4 mt-4" type="submit" variant="success" block :disabled="invalid">
+        <b-button
+          class="mb-4 mt-4"
+          type="submit"
+          variant="success"
+          block
+          :disabled="invalid"
+        >
           Salvar
         </b-button>
       </div>
@@ -104,10 +161,7 @@
 </template>
 
 <script>
-import {
-  ValidationObserver,
-  ValidationProvider
-} from 'vee-validate'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 import mixinForm from '@/mixins/form'
 import categories from '@/data/categories.json'
@@ -173,7 +227,10 @@ export default {
   methods: {
     async save() {
       if (this.media) {
-        const media = await this.$axios.$put('/api/medias/' + this.media._id, this.form)
+        const media = await this.$axios.$put(
+          '/api/medias/' + this.media._id,
+          this.form
+        )
         if (media) {
           this.$toast.success('Item atualizado com sucesso!')
           this.$router.push('/conta/medias')
@@ -198,14 +255,19 @@ export default {
     async loadUrl() {
       if (this.isValidUrl(this.form.url)) {
         this.loadingUrl = true
-        const res = await this.$axios.$get('/api/uploads/oembed?url=' + encodeURI(this.form.url)).catch((e) => {
-          this.loadingUrl = false
-        })
+        const res = await this.$axios
+          .$get('/api/uploads/oembed?url=' + encodeURI(this.form.url))
+          .catch(e => {
+            this.loadingUrl = false
+          })
         if (res) {
           this.form.title = res.title
           if (res.description) {
             this.form.description = res.description
-            const tags = res.description.split(' ').filter(v => v.startsWith('#')).map(v => v.replace('#', ''))
+            const tags = res.description
+              .split(' ')
+              .filter(v => v.startsWith('#'))
+              .map(v => v.replace('#', ''))
             if (tags && tags.length) {
               this.form.tags = tags
             }
@@ -227,7 +289,7 @@ export default {
         this.loadingUrl = false
       }
     },
-    isValidUrl (string) {
+    isValidUrl(string) {
       let url = false
       try {
         url = new URL(string)
