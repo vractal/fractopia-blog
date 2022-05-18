@@ -1,43 +1,38 @@
 <template>
   <div>
     <div>
-      <div v-if="active.column !== null">
-        <dl-column-editor
-          v-model="form.columns[active.column]"
-          :title="'Coluna ' + (active.column + 1)"
-          @input="changed"
-          @close="setColumn(null)"
-          @remove="removeColumn"
-        />
-      </div>
-      <div v-else>
-        <div class="mb-3">
-          <b-btn variant="primary" size="sm" class="mr-2" @click="close">
-            <b-icon-chevron-left />
-          </b-btn>
-          <strong>
-            {{ title }}
-          </strong>
-        </div>
+      <div>
         <div class="mb-3">
           <draggable v-model="form.columns" tag="div" @end="changed">
-            <b-btn
-              v-for="(column, columnIndex) in form.columns"
-              :key="'column-' + columnIndex"
-              block
-              variant="primary"
-              class="text-left d-flex justify-content-between mb-1"
-              @click="setColumn(columnIndex)"
-            >
-              <span>
-                <small><b-icon-grip-horizontal /></small>
-                Coluna {{ columnIndex + 1 }}
-              </span>
-              <span>
-                <b-icon-chevron-right />
-              </span>
-            </b-btn>
+            <template v-for="(column, columnIndex) in form.columns">
+              <b-btn
+                :key="'column-' + columnIndex"
+                block
+                variant="primary"
+                class="text-left d-flex justify-content-between mb-1"
+                @click="setColumn(columnIndex)"
+              >
+                <span>
+                  <small><b-icon-grip-horizontal /></small>
+                  Coluna {{ columnIndex + 1 }}
+                </span>
+                <span>
+                  <b-icon-chevron-down v-if="active.column === columnIndex" />
+                  <b-icon-chevron-right v-else />
+                </span>
+              </b-btn>
+              <div v-if="active.column === columnIndex" :key="'column-editor-' + columnIndex" class="pl-3">
+                <dl-column-editor
+                  v-model="form.columns[active.column]"
+                  :title="'Coluna ' + (active.column + 1)"
+                  @input="changed"
+                  @close="setColumn(null)"
+                  @remove="removeColumn"
+                />
+              </div>
+            </template>
           </draggable>
+
           <b-btn block class="mt-3 text-left d-flex justify-content-between" @click="addColumn">
             <span>
               Adicionar coluna
@@ -158,10 +153,18 @@ export default {
       this.$emit('close')
     },
     setColumn(index) {
-      this.setActive({
-        section: this.active.section,
-        column: index
-      })
+      // console.log();
+      if (this.active.column === index) {
+        this.setActive({
+          section: this.active.section,
+          column: null
+        })
+      } else {
+        this.setActive({
+          section: this.active.section,
+          column: index
+        })
+      }
     }
 
   }

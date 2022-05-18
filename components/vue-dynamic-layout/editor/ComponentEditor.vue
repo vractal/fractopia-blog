@@ -1,13 +1,5 @@
 <template>
   <div>
-    <div class="mb-3">
-      <b-btn variant="primary" size="sm" class="mr-2" @click="close">
-        <b-icon-chevron-left />
-      </b-btn>
-      <strong>
-        {{ title }}
-      </strong>
-    </div>
     <div v-if="form">
       <div class="px-3 py-3 dl-form">
         <div>

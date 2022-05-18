@@ -1,46 +1,40 @@
 <template>
   <div>
     <div>
-      <div v-if="active.component !== null">
-        <dl-component-editor
-          v-model="form.components[active.component]"
-          :title="'Componente ' + (active.component + 1)"
-          @input="changed"
-          @close="setComponent(null)"
-          @remove="removeComponent"
-        />
-      </div>
-      <div v-else>
-        <div class="mb-3">
-          <b-btn variant="primary" size="sm" class="mr-2" @click="close">
-            <b-icon-chevron-left />
-          </b-btn>
-          <strong>
-            {{ title }}
-          </strong>
-        </div>
+      <div>
         <div>
           <div
 
             class="mb-3"
           >
             <draggable v-model="form.components" tag="div" @end="changed">
-              <b-btn
-                v-for="(component, componentIndex) in form.components"
-                :key="'component-' + componentIndex"
-                block
-                variant="primary"
-                class="text-left d-flex justify-content-between mb-1"
-                @click="active.component = componentIndex"
-              >
-                <span>
-                  <small><b-icon-grip-horizontal /></small>
-                  {{ componentCategories[component.category].title }}
-                </span>
-                <span>
-                  <b-icon-chevron-right />
-                </span>
-              </b-btn>
+              <template v-for="(component, componentIndex) in form.components">
+                <b-btn
+                  :key="'component-' + componentIndex"
+                  block
+                  variant="primary"
+                  class="text-left d-flex justify-content-between mb-1"
+                  @click="setComponent(componentIndex)"
+                >
+                  <span>
+                    <small><b-icon-grip-horizontal /></small>
+                    {{ componentCategories[component.category].title }}
+                  </span>
+                  <span>
+                    <b-icon-chevron-down v-if="active.component === componentIndex" />
+                    <b-icon-chevron-right v-else />
+                  </span>
+                </b-btn>
+                <div v-if="active.component === componentIndex" :key="'component-editor-' + componentIndex" class="pl-3">
+                  <dl-component-editor
+                    v-model="form.components[active.component]"
+                    :title="'Componente ' + (active.component + 1)"
+                    @input="changed"
+                    @close="setComponent(null)"
+                    @remove="removeComponent"
+                  />
+                </div>
+              </template>
             </draggable>
           </div>
           <b-btn block class="mb-3 text-left d-flex justify-content-between" @click="addComponent">
@@ -157,11 +151,19 @@ export default {
       this.$emit('close')
     },
     setComponent(index) {
-      this.setActive({
-        section: this.active.section,
-        column: this.active.column,
-        component: index
-      })
+      if (this.active.component === index) {
+        this.setActive({
+          section: this.active.section,
+          column: this.active.column,
+          component: null
+        })
+      } else {
+        this.setActive({
+          section: this.active.section,
+          column: this.active.column,
+          component: index
+        })
+      }
     }
 
   }

@@ -8,35 +8,42 @@
   >
     <div class="px-3 py-3">
       <div class="mb-3">
-        <div v-if="active.section !== null">
-          <dl-section-editor
-            v-model="sections[active.section]"
-            :title="'Seção ' + (active.section + 1)"
-            @input="changed"
-            @remove="removeSection"
-            @close="setSection(null)"
-          />
-        </div>
-        <div v-else class="mb-3">
+        <div class="mb-3">
           <draggable v-model="sections" tag="div" @end="changed">
-            <b-btn
-              v-for="(section, i) in sections"
-              :key="'section-' + i"
-              block
-              variant="primary"
-              class="text-left d-flex justify-content-between mb-1"
-              @click="setSection(i)"
-            >
-              <span>
-                <small><b-icon-grip-horizontal /></small>
-                Seção {{ i + 1 }}
-              </span>
-              <span>
-                <b-icon-chevron-right />
-              </span>
-            </b-btn>
+            <template v-for="(section, i) in sections">
+              <b-btn
+
+                :key="'section-' + i"
+                block
+                variant="primary"
+                class="text-left d-flex justify-content-between mb-1"
+                @click="setSection(i)"
+              >
+                <span>
+                  <small><b-icon-grip-horizontal /></small>
+                  Seção {{ i + 1 }}
+                </span>
+                <span>
+                  <b-icon-chevron-down v-if="active.section === i" />
+                  <b-icon-chevron-right v-else />
+                </span>
+              </b-btn>
+              <div v-if="active.section === i" :key="'section-editor-' + i" class="pl-3">
+                <dl-section-editor
+                  v-model="sections[active.section]"
+                  :title="'Seção ' + (active.section + 1)"
+                  @input="changed"
+                  @remove="removeSection"
+                  @close="setSection(null)"
+                />
+              </div>
+            </template>
           </draggable>
-          <b-btn block class="mt-3 text-left d-flex justify-content-between" @click="addSection">
+          <b-btn
+            block
+            class="mt-3 text-left d-flex justify-content-between"
+            @click="addSection"
+          >
             <span>
               Adicionar seção
             </span>
@@ -135,7 +142,11 @@ export default {
       }, 1000)
     },
     setSection(index) {
-      this.setActive({ section: index })
+      if (this.active.section === index) {
+        this.setActive({ section: null })
+      } else {
+        this.setActive({ section: index })
+      }
     }
   }
 }
