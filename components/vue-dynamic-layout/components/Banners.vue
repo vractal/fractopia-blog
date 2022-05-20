@@ -1,17 +1,13 @@
 <template>
-  <div :id="attrs.id" @click="$emit('click')">
-    <Banners v-bind="attrs" />
+  <div @click="$emit('click')">
+    <Banners v-bind="data.attrs" />
   </div>
 </template>
 
 <script>
+import componentMixins from './mixins'
 export default {
   name: 'DlBanners',
-  props: {
-    attrs: {
-      type: Object,
-      default: () => {}
-    }
-  }
+  mixins: [componentMixins]
 }
 </script>
