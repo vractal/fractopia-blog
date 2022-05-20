@@ -3,10 +3,7 @@
     <div>
       <div>
         <div>
-          <div
-
-            class="mb-3"
-          >
+          <div class="mb-3">
             <draggable v-model="form.components" tag="div" @end="changed">
               <template v-for="(component, componentIndex) in form.components">
                 <b-btn
@@ -18,14 +15,20 @@
                 >
                   <span>
                     <small><b-icon-grip-horizontal /></small>
-                    {{ componentCategories[component.category].title }}
+                    {{ component.category ? componentCategories[component.category].title : 'Novo componente' }}
                   </span>
                   <span>
-                    <b-icon-chevron-down v-if="active.component === componentIndex" />
+                    <b-icon-chevron-down
+                      v-if="active.component === componentIndex"
+                    />
                     <b-icon-chevron-right v-else />
                   </span>
                 </b-btn>
-                <div v-if="active.component === componentIndex" :key="'component-editor-' + componentIndex" class="pl-3">
+                <div
+                  v-if="active.component === componentIndex"
+                  :key="'component-editor-' + componentIndex"
+                  class="pl-3"
+                >
                   <dl-component-editor
                     v-model="form.components[active.component]"
                     :title="'Componente ' + (active.component + 1)"
@@ -37,7 +40,11 @@
               </template>
             </draggable>
           </div>
-          <b-btn block class="mb-3 text-left d-flex justify-content-between" @click="addComponent">
+          <b-btn
+            block
+            class="mb-3 text-left d-flex justify-content-between"
+            @click="addComponent"
+          >
             <span>
               Adicionar componente
             </span>
@@ -46,8 +53,20 @@
         </div>
         <div class="px-3 py-3 dl-form">
           <div>
-            <b-form-group label="Tamanho da coluna" :description="form.attrs.lg ? parseInt((form.attrs.lg * 100) / 12 ) + '%' : ''">
-              <b-form-input v-model="form.attrs.lg" type="range" min="1" max="12" step="1" @input="changed" />
+            <b-form-group
+              label="Tamanho da coluna"
+              :description="
+                form.attrs.lg ? parseInt((form.attrs.lg * 100) / 12) + '%' : ''
+              "
+            >
+              <b-form-input
+                v-model="form.attrs.lg"
+                type="range"
+                min="1"
+                max="12"
+                step="1"
+                @input="changed"
+              />
             </b-form-group>
             <b-form-group label="Cor de fundo">
               <dl-background-editor
@@ -140,7 +159,9 @@ export default {
       this.setComponent(this.form.components.length - 1)
     },
     removeComponent() {
-      this.form.components = this.form.components.filter((component, i) => i !== this.active.component)
+      this.form.components = this.form.components.filter(
+        (component, i) => i !== this.active.component
+      )
       this.setComponent(null)
       this.changed()
     },
@@ -165,7 +186,6 @@ export default {
         })
       }
     }
-
   }
 }
 </script>
