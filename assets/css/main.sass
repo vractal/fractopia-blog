@@ -283,8 +283,23 @@ footer
       // .navbar-collapse
       //   display: block
 
+.quill-editor.fullscreen
+  background: red
+  position: absolute
+  top:  0px
+  right:  0px
+  bottom: 0px
+  left: calc((100vw - 421px) * -1)
+  z-index: 1
+  .ql-fullscreen
+    background-image: url(~assets/img/fullscreen-off.svg) !important
 .ql-iframe
   background-image: url(~assets/img/ql-code.png) !important
+  background-size: 20px !important
+  background-repeat: no-repeat !important
+  background-position: center !important
+.ql-fullscreen
+  background-image: url(~assets/img/fullscreen.svg) !important
   background-size: 20px !important
   background-repeat: no-repeat !important
   background-position: center !important
@@ -566,3 +581,4 @@ footer
 .alert-success
   background-color: $success
   color: #fff
+

@@ -52,13 +52,18 @@ const options = [
     align: []
   }],
   ['image', 'video', 'link', 'iframe'],
-  ['clean'] // remove formatting button
+  ['clean'], // remove formatting button
+  ['fullscreen']
 ]
 Vue.use(VueQuillEditor, {
   modules: {
     toolbar: {
       container: options,
       handlers: {
+        fullscreen() {
+          const quillEditorTag = document.getElementsByClassName('quill-editor')[0]
+          quillEditorTag.classList.toggle('fullscreen')
+        },
         image: () => {
           document.getElementById('quillfile').click()
         },
