@@ -279,7 +279,7 @@ router.get('/', async (req, res) => {
 
 router.get('/filters', (req, res) => {
   const query = {}
-  Media.find(query, 'tags categories languages').exec((err, medias) => {
+  Media.find(query, 'tags categories languages type').exec((err, medias) => {
     if (err) {
       res.status(422).send(err)
     } else {
@@ -288,7 +288,7 @@ router.get('/filters', (req, res) => {
       const categories = {}
       const languages = {}
       medias.forEach(media => {
-        if (media && media.tags) {
+        if (media) {
           if (media.type) {
             types[media.type] = true
           }
