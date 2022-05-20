@@ -39,7 +39,7 @@
             <tbody>
               <tr v-for="(attachment, index) in preview" :key="index">
                 <td class="img-td">
-                  <b-img v-if="attachment.thumb" :src="attachment.thumb || attachment.url" width="100" thumbnail />
+                  <img v-if="attachment.thumb" :src="attachment.thumb || attachment.url" width="100" thumbnail>
                   <div v-else style="width: 100px; height: 100px;" class="text-center m-auto">
                     <b-icon-image v-if="attachment.type === 'images'" class="thumb-icon" />
                     <b-icon-file-earmark-text v-else class="thumb-icon" />
@@ -53,7 +53,7 @@
                   <p v-if="attachment.description" class="mb-3">{{ attachment.description }}</p>
                   <p v-if="attachment.url" class="mb-3">
                     <a :href="attachment.url.startsWith('http') ? attachment.url : baseURL + attachment.url" target="_blank">
-                      {{ attachment.url.startsWith('http') ? attachment.url : baseURL + attachment.url }}
+                      <small>Ver arquivo</small>
                     </a>
                   </p>
                   <b-btn variant="secondary" size="sm" @click="$bvModal.show('attachment-modal-' + inputId + '-' + index)">
@@ -152,7 +152,7 @@ export default {
   },
   computed: {
     baseURL() {
-      return (this.$axios.defaults.baseURL || '') + '/'
+      return (this.$axios.defaults.baseURL || '')
     },
     gallery() {
       if (this.attachments && this.search) {
