@@ -55,6 +55,7 @@ export default {
         section: index
       })
     },
+
     backgroundAttrs(background) {
       const attrs = {}
       if (background) {

@@ -9,6 +9,9 @@
     <div class="px-3 py-3">
       <div class="mb-3">
         <div class="mb-3">
+          <div v-if="sections.length === 0">
+            <SelectTemplate @input="loadTemplate" />
+          </div>
           <draggable v-model="sections" tag="div" @end="changed">
             <template v-for="(section, i) in sections">
               <b-btn
@@ -147,6 +150,10 @@ export default {
       } else {
         this.setActive({ section: index })
       }
+    },
+    loadTemplate(template) {
+      this.sections = template
+      this.changed()
     }
   }
 }

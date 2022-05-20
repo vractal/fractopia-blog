@@ -38,6 +38,9 @@
         <b-col md="12">
           <Upload v-model="form.docs" label="Documentos" type="documents" multiple edit-title />
         </b-col>
+        <b-col v-if="!page" md="12">
+          <SelectTemplate @input="setTemplate" />
+        </b-col>
         <!-- <b-col md="12">
           <b-form-group label="Conteúdo da página">
             <quill-editor ref="quillEdit" v-model="form.content" />
@@ -46,7 +49,7 @@
         </b-col> -->
       </b-row>
       <b-button class="mb-4 mt-4" type="submit" variant="success" :disabled="invalid" block>
-        Salvar
+        Salvar e editar conteúdo da página
       </b-button>
     </b-form>
   </ValidationObserver>
@@ -81,7 +84,8 @@ export default {
         categories: [],
         content: '',
         images: [],
-        tags: []
+        tags: [],
+        sections: null
       }
     }
   },
@@ -114,6 +118,9 @@ export default {
       if (this.form.title) {
         this.form.slug = slugify(this.form.title).toLowerCase()
       }
+    },
+    setTemplate(template) {
+      this.form.sections = template
     }
   }
 }
