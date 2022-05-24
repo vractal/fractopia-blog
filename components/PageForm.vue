@@ -95,7 +95,15 @@ export default {
     }
   },
   async created () {
-    this.toForm(this.form, this.page)
+    console.log('asdfasdf', this.$route.query)
+    if (this.page) {
+      this.toForm(this.form, this.page)
+    } else if (this.$route.query.from) {
+      const pageToDuplicate = await this.$axios.$get(`/api/pages/${this.$route.query.from}`)
+      this.toForm(this.form, pageToDuplicate)
+      this.form.title += ' (cópia)'
+      this.form.slug += '-copia'
+    }
     this.currentTags = await this.$axios.$get('/api/pages/current_tags')
   },
   methods: {
