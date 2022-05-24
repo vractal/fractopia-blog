@@ -42,7 +42,7 @@
         </div>
         <b-table v-if="medias.data && medias.data.length" :fields="table" :items="medias.data" responsive="sm">
           <template v-slot:cell(title)="data">
-            <n-link :to="'/biblioteca/' + data.item._id">
+            <n-link :to="{ path: '/biblioteca', query: { media: data.item._id} }">
               <small><strong>{{ data.value }}</strong></small>
             </n-link>
           </template>
