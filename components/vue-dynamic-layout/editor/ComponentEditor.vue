@@ -74,9 +74,9 @@
                   <b-icon-grip-horizontal /> Vertical
                 </b-btn>
               </b-form-group>
-              <b-form-group label="Imagem">
-                <b-form-input v-model="form.attrs['img-src']" placeholder="URL da imagem" class="mb-1" @input="changed" />
-                <div v-if="form.attrs.orientation !== 'vertical'">
+              <div label="Imagem">
+                <Upload v-model="form.attrs['img-src']" label="Imagem" type="images" @input="changed" />
+                <div v-if="form.attrs.orientation !== 'vertical'" class="mb-4 mt-n4">
                   <b-btn size="sm" :variant="(!form.attrs['img-align'] || form.attrs['img-align'] === 'left') ? 'primary' : 'secondary'" @click="form.attrs['img-align'] = 'left'; changed()">
                     <b-icon-text-left />
                   </b-btn>
@@ -84,7 +84,7 @@
                     <b-icon-text-right />
                   </b-btn>
                 </div>
-              </b-form-group>
+              </div>
               <b-form-group label="Cabeçalho">
                 <b-form-input v-model="form.attrs.header" @input="changed" />
               </b-form-group>

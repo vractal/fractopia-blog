@@ -7,7 +7,7 @@
     <b-card v-else no-body class="overflow-hidden mb-3" v-bind="{...attrs, 'img-src': null}" :bg-variant="attrs['bg-variant'] || 'primary'" @click="$emit('click')">
       <b-row no-gutters>
         <b-col v-if="attrs['img-src'] && (!attrs['img-align'] || attrs['img-align'] === 'left')" md="6">
-          <b-card-img :src="attrs['img-src']" :alt="attrs.title" class="rounded-0" />
+          <b-card-img :src="attrs['img-src'].url" :alt="attrs.title" class="rounded-0" />
         </b-col>
         <b-col md="6">
           <b-card-body :title="attrs.title">
