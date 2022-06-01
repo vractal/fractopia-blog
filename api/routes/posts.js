@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 
   Post.find(query)
     .populate(req.query.populate)
-    .sort({ createdAt: -1 })
+    .sort({ publishing_date: -1 })
     .exec((err, posts) => {
       if (err) {
         res.status(422).send(err.message)
