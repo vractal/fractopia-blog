@@ -11,6 +11,7 @@ require('./models/Contact')
 require('./models/Media')
 require('./models/Product')
 require('./models/Order')
+require('./models/Saved')
 require('./config/passport')
 
 const mongoose = require('mongoose')
