@@ -4,13 +4,13 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+# COPY package.json ./
 
 # RUN npm install -g yarn
 
 RUN npm install node-sass --sass-binary-name=linux-x64-83
 RUN yarn
 
-COPY . .
+# COPY . .
 
 EXPOSE 3000
