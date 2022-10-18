@@ -6,7 +6,12 @@ const auth = require('../config/auth')
 const Post = mongoose.model('Post')
 
 router.get('/', (req, res) => {
-  Post.find().populate(req.query.populate).sort({ createdAt: -1 }).exec((err, posts) => {
+  const tagsFilter = {}
+  if (req.query?.tag) {
+    // essa checagem é necessária?
+    tagsFilter.tags = req.query
+  }
+  Post.find(tagsFilter).populate(req.query.populate).sort({ createdAt: -1 }).exec((err, posts) => {
     if (err) {
       res.status(422).send(err.message)
     } else {

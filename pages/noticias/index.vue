@@ -6,7 +6,9 @@
     <section class="content pb-5">
       <Page slug="noticias" :breadcrumb="false" />
       <b-container>
-        <tags :to="$route.path" />
+        <!-- <tags :to="$route.path" /> -->
+        <tags :tags="tags" @click="filterbyTag" />
+
         <div v-if="posts">
           <Posts :posts="posts" />
           <div v-if="posts.length === 0" class="alert text-center">Nenhuma notícia encontrada</div>
@@ -22,7 +24,8 @@ import features from '@/data/features'
 export default {
   data () {
     return {
-      posts: null
+      posts: null,
+      tags: []
     }
   },
   computed: {
@@ -35,9 +38,18 @@ export default {
       }
       return features.posts.title
     }
+    // tags() {
+    //   return ['oi']
+    // }
   },
   async created() {
     this.posts = await this.$axios.$get('/api/posts', { params: this.$route.query })
+    this.tags = await this.$axios.$get('/api/posts/current_tags')
+  },
+  methods: {
+    filterbyTag(tag) {
+      this.$router.replace('/noticias?tags=' + tag)
+    }
   }
 }
 </script>

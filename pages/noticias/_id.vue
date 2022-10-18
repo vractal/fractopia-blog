@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     filterbyTag(tag) {
-      this.$router.push('/noticias?tag=' + tag)
+      this.$router.push('/noticias?tags=' + tag)
     }
   }
 }
