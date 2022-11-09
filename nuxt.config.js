@@ -47,7 +47,6 @@ export default {
         lang: 'pt_BR'
       }
     ],
-    '@tui-nuxt/editor',
     [
       'nuxt-i18n',
       {
@@ -91,9 +90,6 @@ export default {
     duration: 7000,
     keepOnHover: true,
     theme: 'bubble'
-  },
-  tui: {
-    editor: {}
   },
   moment: {
     defaultLocale: 'pt-br',
