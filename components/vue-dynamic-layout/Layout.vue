@@ -1,13 +1,19 @@
 <template>
   <div class="vue-dynamic-layout" :class="{ editing: editMode }">
-    <dl-sections v-model="sections" :edit-mode="editMode" />
-    <dl-editor
-      v-model="sections"
-      :show="editMode"
-      @save="save"
-      @input="changed"
-      @close="showEditor = false"
-    />
+    <div :class="{row: editMode, 'vue-dynamic-layout-edit-grid': editMode}">
+      <div :class="{'col-md-9': editMode}">
+        <dl-sections v-model="sections" :edit-mode="editMode" />
+      </div>
+      <div v-if="editMode" :class="{'col-md-3': editMode}">
+        <dl-editor
+          v-model="sections"
+          :show="editMode"
+          @save="save"
+          @input="changed"
+          @close="showEditor = false"
+        />
+      </div>
+    </div>
     <b-btn
       v-if="canEdit && !showEditor"
       class="dl-editor-btn px-3"

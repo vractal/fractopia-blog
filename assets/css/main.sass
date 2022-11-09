@@ -582,3 +582,45 @@ footer
   background-color: $success
   color: #fff
 
+.vue-dynamic-layout 
+  .vue-dynamic-layout-editor
+    background-color: $light
+    padding: 15px
+    .btn-sm
+      font-size: 13px
+    legend
+      font-size: 12px
+      padding-bottom: 0
+    .form-group
+      margin-bottom: 10px
+    .section-tabs
+      li
+        margin-bottom: -1px
+        
+      .nav-link
+        font-size: 13px
+        color: $primary
+        &.active
+          background-color: transparent
+          border-radius: 0
+          // color: $primary
+          font-weight: bold
+
+  &.editing
+    position: absolute
+    top: 0
+    background-color: #fff
+    z-index: 1
+    width: 100vw
+    max-width: 100%
+    min-height: 100vh
+    overflow-x: hidden
+    .vue-dynamic-layout-editor
+      min-height: 100%
+      .vue-dynamic-layout-component-editor
+        background-color: $light
+  .vue-dynamic-layout-edit-grid
+    min-height: 100vh
+  .info-box
+    font-size: 12px
+    text-align: right

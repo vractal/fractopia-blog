@@ -1,37 +1,48 @@
 <template>
-  <b-sidebar
-    :visible="showEditor"
-    title="Editor de layout"
-    right
-    shadow
-    @hidden="$emit('close')"
+  <div
+    :show="showEditor"
+    class="vue-dynamic-layout-editor"
   >
-    <div class="px-3 py-3">
+    <div>
+      <div class="mb-3 d-flex align-items-center justify-content-between">
+        <div>
+          <strong>Editor de conteúdo</strong>
+        </div>
+        <div class="d-flex">
+          <b-btn v-if="hasChanged" class="mr-1" variant="success" block title="Você tem alterações não salvas" @click="save()">
+            <b-icon-check /> Salvar
+          </b-btn>
+          <b-btn variant="primary" icon @click="$emit('close')">
+            <b-icon-x />
+          </b-btn>
+        </div>
+      </div>
+      <b-alert :show="savedAlert" variant="success" outlined>
+        <b-icon-check-circle-fill class="mr-2" /> Alterações salvas!
+      </b-alert>
       <div class="mb-3">
         <div class="mb-3">
           <div v-if="sections.length === 0">
             <SelectTemplate @input="loadTemplate" />
           </div>
-          <draggable v-model="sections" tag="div" @end="changed">
-            <template v-for="(section, i) in sections">
+          <draggable v-model="sections" tag="div" :disabled="active.section != null" @end="changed">
+            <div v-for="(section, i) in sections" :key="'section-' + i" class="pb-2">
               <b-btn
 
-                :key="'section-' + i"
                 block
-                variant="primary"
-                class="text-left d-flex justify-content-between mb-1"
+                :variant="active.section === i ? 'primary' : 'outline-primary'"
+                class="text-left d-flex justify-content-between rounded-0"
                 @click="setSection(i)"
               >
                 <span>
-                  <small><b-icon-grip-horizontal /></small>
                   Seção {{ i + 1 }}
                 </span>
                 <span>
-                  <b-icon-chevron-down v-if="active.section === i" />
-                  <b-icon-chevron-right v-else />
+                  <b-icon-chevron-up v-if="active.section === i" />
+                  <b-icon-chevron-down v-else />
                 </span>
               </b-btn>
-              <div v-if="active.section === i" :key="'section-editor-' + i" class="pl-3">
+              <div v-if="active.section === i" style="background-color: #fff;">
                 <dl-section-editor
                   v-model="sections[active.section]"
                   :title="'Seção ' + (active.section + 1)"
@@ -40,8 +51,11 @@
                   @close="setSection(null)"
                 />
               </div>
-            </template>
+            </div>
           </draggable>
+          <div v-if="active.section == null" class="info-box">
+            <small><b-icon-exclamation-circle /> Clique e arraste na seção para reordenar</small>
+          </div>
           <b-btn
             block
             class="mt-3 text-left d-flex justify-content-between"
@@ -54,22 +68,8 @@
           </b-btn>
         </div>
       </div>
-      <div v-if="hasChanged" class="mb-4">
-        <p class="text-danger mb-3">
-          <small>
-            <b-icon-exclamation-octagon class="mr-2" />
-            Você tem alterações não salvas
-          </small>
-        </p>
-        <b-btn size="lg" variant="primary" block @click="save()">
-          <b-icon-check /> Salvar alterações
-        </b-btn>
-      </div>
-      <b-alert :show="savedAlert" variant="success">
-        <b-icon-check-circle-fill class="mr-2" /> Alterações salvas!
-      </b-alert>
     </div>
-  </b-sidebar>
+  </div>
 </template>
 
 <script>
@@ -117,7 +117,9 @@ export default {
       this.showSavedAlert()
     },
     changed() {
-      this.$emit('input', this.sections)
+      console.log('changed!')
+      console.log(this.sections)
+      this.$emit('input', this.sections.filter(s => s))
       this.hasChanged = true
     },
     addSection(section) {

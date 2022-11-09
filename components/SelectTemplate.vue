@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import DlSections from './vue-dynamic-layout/Sections.vue'
 import templates from '@/data/templates'
+import DlSections from './vue-dynamic-layout/Sections.vue'
 export default {
   components: {
     DlSections

@@ -2,26 +2,32 @@
   <div>
     <div>
       <div>
-        <div class="mb-3">
-          <draggable v-model="form.columns" tag="div" @end="changed">
-            <template v-for="(column, columnIndex) in form.columns">
-              <b-btn
-                :key="'column-' + columnIndex"
-                block
-                variant="primary"
-                class="text-left d-flex justify-content-between mb-1"
-                @click="setColumn(columnIndex)"
-              >
-                <span>
-                  <small><b-icon-grip-horizontal /></small>
-                  Coluna {{ columnIndex + 1 }}
-                </span>
-                <span>
-                  <b-icon-chevron-down v-if="active.column === columnIndex" />
-                  <b-icon-chevron-right v-else />
-                </span>
-              </b-btn>
-              <div v-if="active.column === columnIndex" :key="'column-editor-' + columnIndex" class="pl-3">
+        <b-tabs class="section-tabs">
+          <b-tab title="Colunas" active>
+            <div class="">
+              <div class="p-2">
+                <draggable v-model="form.columns" tag="div" class="d-inline-block" @end="changed">
+                  <div v-for="(column, columnIndex) in form.columns" :key="'column-' + columnIndex" class="d-inline-block">
+                    <b-btn
+
+                      :variant="active.column === columnIndex ? 'primary' : 'outline-primary'"
+                      class="text-left d-flex justify-content-between mb-1 mr-1"
+                      size="sm"
+                      @click="setColumn(columnIndex)"
+                    >
+                      <span>
+                        <!-- <small><b-icon-arrows-move /></small> -->
+                        Coluna {{ columnIndex + 1 }}
+                      </span>
+                    </b-btn>
+                  </div>
+                </draggable>
+                <b-btn variant="primary" size="sm" @click="addColumn">
+                  <b-icon-plus />
+                </b-btn>
+              </div>
+
+              <div v-if="active.column != null" class="pt-1">
                 <dl-column-editor
                   v-model="form.columns[active.column]"
                   :title="'Coluna ' + (active.column + 1)"
@@ -30,56 +36,51 @@
                   @remove="removeColumn"
                 />
               </div>
-            </template>
-          </draggable>
-
-          <b-btn block class="mt-3 text-left d-flex justify-content-between" @click="addColumn">
-            <span>
-              Adicionar coluna
-            </span>
-            <b-icon-plus />
-          </b-btn>
-        </div>
-        <div class="px-3 py-3 dl-form">
-          <div>
-            <b-form-group label="O conteúdo deve ocupar toda a largura da tela?">
-              <b-form-checkbox v-model="form.attrs.fluid" switch class="d-inline-block" @input="changed" />
-              {{ form.attrs.fluid ? "Sim" : "Não" }}
-            </b-form-group>
-            <b-form-group label="Cor de fundo">
-              <dl-background-editor
-                v-model="form.background"
-                @input="changed"
-              />
-            </b-form-group>
-            <b-form-group v-if="form.background" label="A cor de fundo deve ocupar toda a largura da tela?">
-              <b-form-checkbox v-model="form.background_fluid" switch class="d-inline-block" @input="changed" />
-              {{ form.background_fluid ? "Sim" : "Não" }}
-            </b-form-group>
-          </div>
-          <div class="text-right">
-            <b-btn
-              variant="default"
-              size="sm"
-              class="mb-3"
-              @click="advancedMode = !advancedMode"
-            >
-              Opções avançadas
-              <b-icon-chevron-down v-if="advancedMode" />
-              <b-icon-chevron-right v-else />
-            </b-btn>
-          </div>
-          <div v-if="advancedMode">
-            <b-form-group label="Classes de estilo">
-              <b-form-input v-model="form.attrs.class" @input="changed" />
-            </b-form-group>
-          </div>
-          <div class="text-right">
-            <b-btn variant="danger" size="sm" @click="$emit('remove')">
-              <b-icon-trash />
-            </b-btn>
-          </div>
-        </div>
+            </div>
+          </b-tab>
+          <b-tab title="Configuração">
+            <div class="px-3 py-3 dl-form">
+              <div>
+                <b-form-group label="O conteúdo deve ocupar toda a largura da tela?">
+                  <b-form-checkbox v-model="form.attrs.fluid" switch class="d-inline-block" @input="changed" />
+                  {{ form.attrs.fluid ? "Sim" : "Não" }}
+                </b-form-group>
+                <b-form-group label="Cor de fundo">
+                  <dl-background-editor
+                    v-model="form.background"
+                    @input="changed"
+                  />
+                </b-form-group>
+                <b-form-group v-if="form.background" label="A cor de fundo deve ocupar toda a largura da tela?">
+                  <b-form-checkbox v-model="form.background_fluid" switch class="d-inline-block" @input="changed" />
+                  {{ form.background_fluid ? "Sim" : "Não" }}
+                </b-form-group>
+              </div>
+              <div class="text-right">
+                <b-btn
+                  variant="default"
+                  size="sm"
+                  class="mb-3"
+                  @click="advancedMode = !advancedMode"
+                >
+                  Opções avançadas
+                  <b-icon-chevron-down v-if="advancedMode" />
+                  <b-icon-chevron-right v-else />
+                </b-btn>
+              </div>
+              <div v-if="advancedMode">
+                <b-form-group label="Classes de estilo">
+                  <b-form-input v-model="form.attrs.class" @input="changed" />
+                </b-form-group>
+              </div>
+              <div class="text-right">
+                <b-btn variant="danger" size="sm" @click="$emit('remove')">
+                  <b-icon-trash />
+                </b-btn>
+              </div>
+            </div>
+          </b-tab>
+        </b-tabs>
       </div>
     </div>
   </div>
@@ -122,6 +123,7 @@ export default {
   },
   watch: {
     value() {
+      console.log(this.value)
       this.form = { ...this.value }
     }
   },

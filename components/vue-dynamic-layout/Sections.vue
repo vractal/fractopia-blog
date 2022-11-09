@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vue-dynamic-layout-sections">
     <template v-for="(section, index) in sections">
       <div :key="'section-' + index" v-bind="section.background_fluid ? backgroundAttrs(section.background) : {}">
         <b-container

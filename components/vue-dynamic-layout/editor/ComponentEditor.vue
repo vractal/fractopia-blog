@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="vue-dynamic-layout-component-editor">
     <div v-if="form">
-      <div class="px-3 py-3 dl-form">
+      <div class="px-2 py-2">
         <div>
           <div v-if="form.category">
             <div v-if="form.category === 'title'">
@@ -122,16 +122,14 @@
             <div v-if="form.category === 'banners'">
               <Upload v-model="form.attrs.items" label="Banners" type="images" multiple edit-title edit-description edit-link @input="changed" />
             </div>
-            <div class="text-right">
+            <div>
               <b-btn
                 variant="default"
                 size="sm"
-                class="mb-4"
+                class="mb-3"
                 @click="advancedMode = !advancedMode"
               >
                 Opções avançadas
-                <b-icon-chevron-down v-if="advancedMode" />
-                <b-icon-chevron-right v-else />
               </b-btn>
             </div>
             <div v-if="advancedMode">
