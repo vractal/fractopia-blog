@@ -36,7 +36,8 @@ const SettingsSchema = mongoose.Schema({
   features: {
     type: Object,
     default: JSON.parse(JSON.stringify(features))
-  }
+  },
+  home_sections: [Object]
 }, {
   timestamps: true,
   toJSON: { virtuals: true }

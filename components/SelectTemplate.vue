@@ -20,22 +20,18 @@
         </b-btn>
       </div>
     </b-form-group>
-    <b-modal id="select-template-modal" title="Selecione um modelo de página" hide-footer size="xl">
+    <b-modal id="select-template-modal" title="Selecione de um modelo ou página" hide-footer size="xl">
       <div>
         <div class="text-center">
-          <p class="mb-1"><small>{{ templates[current].type || 'Modelo' }}</small></p>
-          <h2 class="mb-3">{{ templates[current].text }}</h2>
           <div class="d-flex justify-content-between">
             <b-btn :disabled="current == 0" variant="primary" @click="current--">
               <b-icon-chevron-left class="mr-1" />
-              Modelo anterior
             </b-btn>
             <b-btn variant="success" size="lg" @click="select">
               <b-icon-check-all class="mr-1" />
-              Selecionar este modelo
+              {{ templates[current].type === 'Página' ? 'Copiar desta página' : 'Copiar deste modelo' }}
             </b-btn>
             <b-btn :disabled="current == templates.length - 1" variant="primary" @click="current++">
-              Próximo modelo
               <b-icon-chevron-right class="mr-1" />
             </b-btn>
           </div>
