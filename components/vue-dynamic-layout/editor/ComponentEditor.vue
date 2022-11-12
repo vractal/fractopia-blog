@@ -122,6 +122,40 @@
             <div v-if="form.category === 'banners'">
               <Upload v-model="form.attrs.items" label="Banners" type="images" multiple edit-title edit-description edit-link @input="changed" />
             </div>
+            <div v-if="form.category === 'button'">
+              <b-form-group label="Texto do botão">
+                <b-form-input
+                  v-model="form.content"
+                  @input="changed"
+                />
+              </b-form-group>
+              <b-form-group label="Link">
+                <b-form-input
+                  v-model="form.attrs.href"
+                  @input="changed"
+                />
+              </b-form-group>
+              <b-form-group label="Tamanho">
+                <b-form-select
+                  v-model="form.attrs.size"
+                  :options="sizes"
+                  @input="changed"
+                />
+              </b-form-group>
+              <b-form-group label="Tipo">
+                <b-form-select
+                  v-model="form.attrs.outlined"
+                  :options="btnTypes"
+                  @input="changed"
+                />
+              </b-form-group>
+              <b-form-group label="Cor">
+                <b-btn v-for="variant in variants" :key="variant" size="sm" :variant="variant" @click="form.attrs['variant'] = variant; changed()">
+                  <b-icon-check-circle v-if="form.attrs['variant'] === variant" />
+                  <b-icon-check v-else />
+                </b-btn>
+              </b-form-group>
+            </div>
             <div>
               <b-btn
                 variant="default"
@@ -160,7 +194,7 @@
 </template>
 
 <script>
-import componentCategories from './data/component-categories'
+import componentCategories from './data/component-categories.json'
 export default {
   name: 'DlComponentEditor',
   props: {
@@ -194,6 +228,15 @@ export default {
         'info',
         'light',
         'dark'
+      ],
+      sizes: [
+        { value: 'sm', text: 'Pequeno' },
+        { value: 'md', text: 'Médio' },
+        { value: 'lg', text: 'Grande' }
+      ],
+      btnTypes: [
+        { value: false, text: 'Sólido' },
+        { value: true, text: 'Delineado' }
       ]
     }
   },
@@ -213,6 +256,12 @@ export default {
     setCategory(category) {
       this.form.category = category
       if (category) {
+        if (category === 'button') {
+          this.form.attrs.size = 'md'
+          this.form.attrs.variant = 'primary'
+          this.form.attrs.outlined = false
+          this.form.content = 'Texto do botão'
+        }
         this.setType(this.componentCategories[category].default)
       } else {
         this.setType(null)

@@ -3,7 +3,7 @@
     <div>
       <div>
         <b-tabs class="column-tabs">
-          <b-tab title="Componenes" active>
+          <b-tab title="Componentes" active>
             <div class="">
               <div class="p-2">
                 <draggable v-model="form.components" tag="div" @end="changed">
@@ -106,7 +106,7 @@
 import draggable from 'vuedraggable'
 import DlBackgroundEditor from './component/Background.vue'
 import DlComponentEditor from './ComponentEditor.vue'
-import componentCategories from './data/component-categories'
+import componentCategories from './data/component-categories.json'
 export default {
   name: 'DlColumnEditor',
   components: {

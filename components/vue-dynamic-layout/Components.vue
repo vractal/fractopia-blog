@@ -13,6 +13,7 @@ import DlTitle from './components/Title.vue'
 import DlParagraph from './components/Paragraph.vue'
 import DlCard from './components/Card.vue'
 import DlBanners from './components/Banners.vue'
+import DlButton from './components/Button.vue'
 
 export default {
   inject: ['active', 'setActive'],
@@ -21,7 +22,8 @@ export default {
     DlTitle,
     DlParagraph,
     DlCard,
-    DlBanners
+    DlBanners,
+    DlButton
   },
   props: {
     value: {
