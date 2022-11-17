@@ -5,7 +5,7 @@
         <b-container
           :id="'dl-section-' + index"
           v-bind="{...section.attrs, ...backgroundAttrs(section.background)}"
-          class="vue-dynamic-editable dl-section py-3"
+          class="vue-dynamic-editable dl-section"
           :data-active="active.section === index"
 
           @click.self="edit(index)"

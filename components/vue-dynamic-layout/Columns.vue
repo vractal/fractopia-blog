@@ -5,8 +5,8 @@
         v-for="(column, index) in columns"
         :id="'dl-column-' + index"
         :key="'column-' + index"
-        v-bind="{...column.attrs, ...backgroundAttrs(column.background)}"
-        class="vue-dynamic-editable dl-column py-3"
+        v-bind="attributes(column)"
+        class="vue-dynamic-editable dl-column"
         :data-active="active.column === index"
         @click.self="edit(index)"
       >
@@ -65,6 +65,9 @@ export default {
     }
   },
   methods: {
+    attributes(column) {
+      return { ...column.attrs, ...this.backgroundAttrs(column.background) }
+    },
     edit(index) {
       this.setActive({
         section: this.section,

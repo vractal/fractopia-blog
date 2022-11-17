@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card v-if="attrs.orientation === 'vertical'" v-bind="attrs" :bg-variant="attrs['bg-variant'] || 'primary'" class="mb-3" @click="$emit('click')">
+    <b-card v-if="attrs.orientation === 'vertical'" v-bind="attrs" :img-src="attrs['img-src'].url" :bg-variant="attrs['bg-variant'] || 'primary'" class="mb-3" @click="$emit('click')">
       <b-card-text v-if="attrs.text" class="pre-wrap">{{ attrs.text }}</b-card-text>
       <b-link v-for="(link, index) in attrs.links" :key="'card-link-' + index" v-bind="link" class="card-link">{{ link.title }}</b-link>
     </b-card>
