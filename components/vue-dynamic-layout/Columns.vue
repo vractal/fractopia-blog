@@ -8,6 +8,7 @@
         v-bind="attributes(column)"
         class="vue-dynamic-editable dl-column"
         :data-active="active.column === index"
+        :style="style(column)"
         @click.self="edit(index)"
       >
         <dl-components v-model="column.components" :edit-mode="editMode" :column="index" :section="section" />
@@ -65,27 +66,22 @@ export default {
     }
   },
   methods: {
+    style(column) {
+      const attrs = this.attributes(column)
+      const styles = []
+      if (attrs['background-color']) {
+        styles.push('background-color: ' + attrs['background-color'] + ' !important')
+      }
+      return styles.join('; ')
+    },
     attributes(column) {
-      return { ...column.attrs, ...this.backgroundAttrs(column.background) }
+      return { ...column.attrs }
     },
     edit(index) {
       this.setActive({
         section: this.section,
         column: index
       })
-    },
-    backgroundAttrs(background) {
-      const attrs = {}
-      if (background) {
-        if (background.startsWith('#')) {
-          attrs.style = {}
-          attrs.style['background-color'] = background
-        } else {
-          attrs.class = {}
-          attrs.class['bg-' + background] = true
-        }
-      }
-      return attrs
     }
   }
 }

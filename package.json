@@ -58,6 +58,7 @@
     "slugify": "^1.4.4",
     "v-calendar": "^1.0.8",
     "v-money": "^0.8.1",
+    "verte": "^0.0.12",
     "vue-easy-lightbox": "^0.16.1",
     "vue-goodshare": "^1.5.1",
     "vue-gtag": "1.16.1",

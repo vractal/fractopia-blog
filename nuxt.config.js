@@ -25,7 +25,8 @@ export default {
     { src: '~/plugins/vue-the-mask.js', ssr: false },
     { src: '~/plugins/vue-goodshare.js', ssr: false },
     { src: '~/plugins/datepicker', ssr: false },
-    { src: '~/plugins/analytics', ssr: false }
+    { src: '~/plugins/analytics', ssr: false },
+    { src: '~/plugins/verte.js', ssr: false }
   ],
   components: true,
   buildModules: [

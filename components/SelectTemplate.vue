@@ -64,8 +64,7 @@ export default {
         column: null,
         component: null
       },
-      setActive: () => null,
-      defaultColors: this.defaultColors
+      setActive: () => null
     }
   },
   computed: {

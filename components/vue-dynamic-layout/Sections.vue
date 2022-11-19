@@ -1,19 +1,17 @@
 <template>
   <div class="vue-dynamic-layout-sections">
-    <template v-for="(section, index) in sections">
-      <div :key="'section-' + index" v-bind="section.background_fluid ? backgroundAttrs(section.background) : {}">
-        <b-container
-          :id="'dl-section-' + index"
-          v-bind="{...section.attrs, ...backgroundAttrs(section.background)}"
-          class="vue-dynamic-editable dl-section"
-          :data-active="active.section === index"
+    <div v-for="(section, index) in sections" :key="'section-' + index" :style="style(section)">
+      <b-container
+        :id="'dl-section-' + index"
+        v-bind="{...section.attrs}"
+        class="vue-dynamic-editable dl-section"
+        :data-active="active.section === index"
 
-          @click.self="edit(index)"
-        >
-          <dl-columns v-model="section.columns" :edit-mode="editMode" :section="index" />
-        </b-container>
-      </div>
-    </template>
+        @click.self="edit(index)"
+      >
+        <dl-columns v-model="section.columns" :edit-mode="editMode" :section="index" />
+      </b-container>
+    </div>
   </div>
 </template>
 <script>
@@ -55,20 +53,15 @@ export default {
         section: index
       })
     },
-
-    backgroundAttrs(background) {
-      const attrs = {}
-      if (background) {
-        if (background.startsWith('#')) {
-          attrs.style = {}
-          attrs.style['background-color'] = background
-        } else {
-          attrs.class = {}
-          attrs.class['bg-' + background] = true
-        }
+    style(section) {
+      const attrs = section.attrs
+      const styles = []
+      if (attrs['background-color']) {
+        styles.push('background-color: ' + attrs['background-color'] + ' !important')
       }
-      return attrs
+      return styles.join('; ')
     }
+
   }
 }
 </script>

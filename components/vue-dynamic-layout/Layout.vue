@@ -1,6 +1,6 @@
 <template>
   <div class="vue-dynamic-layout" :class="{ editing: editMode }">
-    <div :class="{row: editMode, 'vue-dynamic-layout-edit-grid': editMode}">
+    <div :class="{row: editMode, 'no-gutters': editMode, 'vue-dynamic-layout-edit-grid': editMode}">
       <div :class="{'col-md-9': editMode}">
         <dl-sections v-model="sections" :edit-mode="editMode" />
       </div>
@@ -20,11 +20,13 @@
       variant="primary"
       @click="showEditor = true"
     >
-      <b-icon-pencil-square class="mr-2" /> Editar página
+      <b-icon-pencil-square class="mr-2" /> Editar conteúdo
     </b-btn>
+    <pre>{{ sections }}</pre>
   </div>
 </template>
 <script>
+import { computed } from 'vue'
 import DlSections from './Sections.vue'
 import DlEditor from './editor/Editor.vue'
 export default {
@@ -45,10 +47,6 @@ export default {
     startEditing: {
       type: Boolean,
       default: false
-    },
-    defaultColors: {
-      type: Array,
-      default: () => []
     }
   },
   data() {
@@ -81,7 +79,7 @@ export default {
     return {
       active: this.active,
       setActive: this.setActive,
-      defaultColors: this.defaultColors
+      isEditing: computed(() => this.showEditor)
     }
   },
   methods: {
@@ -139,6 +137,7 @@ export default {
     border-radius: 20px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    z-index: 12;
   }
 }
 </style>

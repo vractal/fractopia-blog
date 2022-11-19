@@ -46,14 +46,11 @@
                   {{ form.attrs.fluid ? "Sim" : "Não" }}
                 </b-form-group>
                 <b-form-group label="Cor de fundo">
-                  <dl-background-editor
-                    v-model="form.background"
-                    @input="changed"
-                  />
+                  <SelectColor v-model="form.attrs['background-color']" />
                 </b-form-group>
-                <b-form-group v-if="form.background" label="A cor de fundo deve ocupar toda a largura da tela?">
-                  <b-form-checkbox v-model="form.background_fluid" switch class="d-inline-block" @input="changed" />
-                  {{ form.background_fluid ? "Sim" : "Não" }}
+                <b-form-group v-if="form.attrs['background-color']" label="A cor de fundo deve ocupar toda a largura da tela?">
+                  <b-form-checkbox v-model="form.attrs['background-fluid']" switch class="d-inline-block" @input="changed" />
+                  {{ form.attrs['background-fluid'] ? "Sim" : "Não" }}
                 </b-form-group>
               </div>
               <div class="text-right">
@@ -88,14 +85,13 @@
 
 <script>
 import draggable from 'vuedraggable'
+import colors from '../../../assets/css/colors.sass'
 import DlColumnEditor from './ColumnEditor.vue'
-import DlBackgroundEditor from './component/Background.vue'
 export default {
   name: 'DlSectionEditor',
   components: {
     draggable,
-    DlColumnEditor,
-    DlBackgroundEditor
+    DlColumnEditor
   },
   inject: ['active', 'setActive'],
   props: {
@@ -110,11 +106,13 @@ export default {
   },
   data() {
     return {
+      colors,
       form: {
-        background: null,
-        background_fluid: null,
         attrs: {
-          fluid: false
+          fluid: false,
+          'background-color': colors.white,
+          'background-fluid': false,
+          class: ''
         },
         columns: []
       },
@@ -123,7 +121,6 @@ export default {
   },
   watch: {
     value() {
-      console.log(this.value)
       this.form = { ...this.value }
     }
   },
@@ -133,9 +130,10 @@ export default {
   methods: {
     addColumn() {
       this.form.columns.push({
-        background: null,
         attrs: {
-          lg: '12'
+          lg: 12,
+          'background-color': colors.white,
+          class: ''
         },
         components: []
       })

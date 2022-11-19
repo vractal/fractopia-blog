@@ -51,8 +51,23 @@
                   </b-btn>
                 </b-btn-group>
               </b-form-group>
-              <b-form-group :label="'Texto do título'">
-                <b-form-input v-model="form.content" @input="changed" />
+              <fieldset class="form-group">
+                <legend>Texto do título</legend>
+                <div class="d-flex align-items-center justify-content-between">
+                  <b-form-input v-model="form.content" style="width: calc(100% - 28px);" @input="changed" />
+                  <SelectColor v-model="form.attrs['color']" @input="changed" />
+                </div>
+              </fieldset>
+              <b-form-group label="Alinhamento">
+                <b-btn size="sm" :variant="!form.attrs.align || form.attrs.align === 'left' ? 'secondary' : 'primary'" @click="form.attrs.align = 'left'; changed()">
+                  <b-icon-text-left />
+                </b-btn>
+                <b-btn size="sm" :variant="form.attrs.align === 'center' ? 'secondary' : 'primary'" @click="form.attrs.align = 'center'; changed()">
+                  <b-icon-text-center />
+                </b-btn>
+                <b-btn size="sm" :variant="form.attrs.align === 'right' ? 'secondary' : 'primary'" @click="form.attrs.align = 'right'; changed()">
+                  <b-icon-text-right />
+                </b-btn>
               </b-form-group>
             </div>
             <div v-if="form.category === 'paragraph'">
@@ -68,15 +83,15 @@
             <div v-if="form.category === 'card'">
               <b-form-group label="Tipo de card">
                 <b-btn size="sm" :variant="(!form.attrs.orientation || form.attrs.orientation === 'horizontal') ? 'primary' : 'secondary'" @click="form.attrs.orientation = 'horizontal'; changed()">
-                  <b-icon-grip-vertical /> Horizontal
+                  Horizontal
                 </b-btn>
                 <b-btn size="sm" :variant="form.attrs.orientation === 'vertical' ? 'primary' : 'secondary'" @click="form.attrs.orientation = 'vertical'; changed()">
-                  <b-icon-grip-horizontal /> Vertical
+                  Vertical
                 </b-btn>
               </b-form-group>
               <div label="Imagem">
                 <Upload v-model="form.attrs['img-src']" label="Imagem" type="images" @input="changed" />
-                <div v-if="form.attrs.orientation !== 'vertical'" class="mb-4 mt-n4">
+                <div v-if="form.attrs.orientation !== 'vertical'" class="mb-4">
                   <b-btn size="sm" :variant="(!form.attrs['img-align'] || form.attrs['img-align'] === 'left') ? 'primary' : 'secondary'" @click="form.attrs['img-align'] = 'left'; changed()">
                     <b-icon-text-left />
                   </b-btn>
@@ -85,36 +100,59 @@
                   </b-btn>
                 </div>
               </div>
-              <b-form-group label="Cabeçalho">
-                <b-form-input v-model="form.attrs.header" @input="changed" />
+              <b-form-group label="Link principal">
+                <b-form-input
+                  v-model="form.attrs.href"
+                  @input="changed"
+                />
               </b-form-group>
-              <b-form-group label="Título">
-                <b-form-input v-model="form.attrs.title" @input="changed" />
-              </b-form-group>
-              <b-form-group label="Subtítulo">
-                <b-form-input v-model="form.attrs['sub-title']" @input="changed" />
-              </b-form-group>
-              <b-form-group label="Texto">
-                <b-form-textarea v-model="form.attrs.text" @input="changed" />
-              </b-form-group>
-              <b-form-group label="Rodapé">
-                <b-form-input v-model="form.attrs.footer" @input="changed" />
-              </b-form-group>
-              <AddLink v-model="form.attrs.links" @input="changed" />
+              <fieldset class="form-group">
+                <legend>Cabeçalho</legend>
+                <div class="d-flex align-items-center justify-content-between">
+                  <b-form-input v-model="form.attrs.header" style="width: calc(100% - 28px);" @input="changed" />
+                  <SelectColor v-model="form.attrs['header-color']" @input="changed" />
+                </div>
+              </fieldset>
+              <fieldset class="form-group">
+                <legend>Título</legend>
+                <div class="d-flex align-items-center justify-content-between">
+                  <b-form-input v-model="form.attrs.title" style="width: calc(100% - 28px);" @input="changed" />
+                  <SelectColor v-model="form.attrs['title-color']" @input="changed" />
+                </div>
+              </fieldset>
+              <fieldset class="form-group">
+                <legend>Subtítulo</legend>
+                <div class="d-flex align-items-center justify-content-between">
+                  <b-form-input v-model="form.attrs['sub-title']" style="width: calc(100% - 28px);" @input="changed" />
+                  <SelectColor v-model="form.attrs['sub-title-color']" @input="changed" />
+                </div>
+              </fieldset>
+              <fieldset class="form-group">
+                <legend>Texto</legend>
+                <div class="d-flex align-items-center justify-content-between">
+                  <b-form-input v-model="form.attrs['text']" style="width: calc(100% - 28px);" @input="changed" />
+                  <SelectColor v-model="form.attrs['text-color']" @input="changed" />
+                </div>
+              </fieldset>
+              <fieldset class="form-group">
+                <legend>Rodapé</legend>
+                <div class="d-flex align-items-center justify-content-between">
+                  <b-form-input v-model="form.attrs['footer']" style="width: calc(100% - 28px);" @input="changed" />
+                  <SelectColor v-model="form.attrs['footer-color']" @input="changed" />
+                </div>
+              </fieldset>
+              <AddLink v-model="form.attrs.links" label="Links adicionais" @input="changed" />
               <b-form-group label="Cor de fundo">
-                <b-btn v-for="variant in variants" :key="variant" size="sm" :variant="variant" @click="form.attrs['bg-variant'] = variant; changed()">
-                  <b-icon-check-circle v-if="form.attrs['bg-variant'] === variant" />
-                  <b-icon-check v-else />
-                </b-btn>
+                <SelectColor v-model="form.attrs['background-color']" @input="changed" />
               </b-form-group>
               <b-form-group label="Alinhamento">
-                <b-btn size="sm" :variant="form.attrs.align === 'left' ? 'primary' : 'secondary'" @click="form.attrs.align = 'left'; changed()">
+                <b-btn size="sm" :variant="!form.attrs.align || form.attrs.align === 'left' ? 'secondary' : 'primary'" @click="form.attrs.align = 'left'; changed()">
                   <b-icon-text-left />
                 </b-btn>
-                <b-btn size="sm" :variant="form.attrs.align === 'center' ? 'primary' : 'secondary'" @click="form.attrs.align = 'center'; changed()">
+                <b-btn size="sm" :variant="form.attrs.align === 'center' ? 'secondary' : 'primary'" @click="form.attrs.align = 'center'; changed()">
                   <b-icon-text-center />
                 </b-btn>
-                <b-btn size="sm" :variant="form.attrs.align === 'right' ? 'primary' : 'secondary'" @click="form.attrs.align = 'right'; changed()">
+                <b-btn size="sm" :variant="form.attrs.align === 'right' ? 'secondary' : 'primary'" @click="form.attrs.align = 'right'; changed()">
                   <b-icon-text-right />
                 </b-btn>
               </b-form-group>
@@ -194,6 +232,7 @@
 </template>
 
 <script>
+import colors from '../../../assets/css/colors.sass'
 import componentCategories from './data/component-categories.json'
 export default {
   name: 'DlComponentEditor',
@@ -209,6 +248,7 @@ export default {
   },
   data() {
     return {
+      colors,
       componentCategories,
       form: {
         type: null,

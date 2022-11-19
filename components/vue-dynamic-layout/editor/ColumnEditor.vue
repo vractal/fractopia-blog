@@ -69,10 +69,7 @@
                   />
                 </b-form-group>
                 <b-form-group label="Cor de fundo">
-                  <dl-background-editor
-                    v-model="form.background"
-                    @input="changed"
-                  />
+                  <SelectColor v-model="form.attrs['background-color']" />
                 </b-form-group>
               </div>
               <div>
@@ -104,14 +101,13 @@
 </template>
 <script>
 import draggable from 'vuedraggable'
-import DlBackgroundEditor from './component/Background.vue'
+import colors from '../../../assets/css/colors.sass'
 import DlComponentEditor from './ComponentEditor.vue'
 import componentCategories from './data/component-categories.json'
 export default {
   name: 'DlColumnEditor',
   components: {
     draggable,
-    DlBackgroundEditor,
     DlComponentEditor
   },
   inject: ['active', 'setActive'],
@@ -127,11 +123,13 @@ export default {
   },
   data() {
     return {
+      colors,
       componentCategories,
       form: {
-        background: null,
         attrs: {
-          lg: 12
+          lg: 12,
+          'background-color': colors.white,
+          class: ''
         },
         components: []
       },

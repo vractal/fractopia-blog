@@ -4,6 +4,7 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
+import colors from '../assets/css/colors.sass'
 
 const options = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -41,7 +42,7 @@ const options = [
   }],
 
   [{
-    color: []
+    color: Object.values(colors)
   }, {
     background: []
   }], // dropdown with defaults from theme

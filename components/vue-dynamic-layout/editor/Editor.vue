@@ -74,6 +74,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import colors from '../../../assets/css/colors.sass'
 import DlSectionEditor from './SectionEditor.vue'
 export default {
   name: 'DlEditor',
@@ -117,17 +118,16 @@ export default {
       this.showSavedAlert()
     },
     changed() {
-      console.log('changed!')
-      console.log(this.sections)
       this.$emit('input', this.sections.filter(s => s))
       this.hasChanged = true
     },
     addSection(section) {
       this.sections.push({
-        background: null,
-        background_fluid: null,
         attrs: {
-          fluid: false
+          fluid: false,
+          'background-color': colors.white,
+          'background-fluid': false,
+          class: ''
         },
         columns: []
       })
