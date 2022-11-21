@@ -97,7 +97,7 @@ const fixPageContents = async () => {
                   {
                     type: 'h1',
                     attrs: {
-                      class: '',
+                      class: 'pt-4',
                       color: colors.primary,
                       align: 'center'
                     },
