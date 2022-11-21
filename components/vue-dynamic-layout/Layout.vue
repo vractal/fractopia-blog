@@ -79,7 +79,7 @@ export default {
     return {
       active: this.active,
       setActive: this.setActive,
-      isEditing: computed(() => this.showEditor)
+      isEditing: this.editMode
     }
   },
   methods: {
