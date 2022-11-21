@@ -617,17 +617,17 @@ footer
     z-index: 11
     width: 100vw
     max-width: 100%
-    min-height: 100vh
+    height: 100vh
     overflow-x: hidden
-    .col-md-9 
-      overflow: auto
-      height: 100%
     .vue-dynamic-layout-editor
       min-height: 100%
       .vue-dynamic-layout-component-editor
         background-color: $light
   .vue-dynamic-layout-edit-grid
-    height: 100vh
+    height: 100%
+    > div
+        overflow-y: auto
+        height: 100%
   .info-box
     font-size: 12px
     text-align: right

@@ -152,7 +152,7 @@ export default {
     },
     duplicateColumn() {
       const active = this.active.column
-      this.form.columns.splice(active, 0, { ...this.form.columns[active] })
+      this.form.columns.splice(active, 0, JSON.parse(JSON.stringify(this.form.columns[active])))
       this.changed()
     },
     changed() {
