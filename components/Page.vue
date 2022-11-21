@@ -7,7 +7,7 @@
       :description="page.description"
     />
     <div class="page">
-      <dl-layout v-model="sections" :can-edit="canEdit" :default-colors="['#f25530', '#a25661']" :start-editing="!!$route.query.edit" @save="save" />
+      <dl-layout v-model="sections" :can-edit="canEdit" :start-editing="!!$route.query.edit" @save="save" />
     </div>
     <b-container>
       <Documents :documents="page.docs" />

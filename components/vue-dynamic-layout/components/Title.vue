@@ -1,5 +1,5 @@
 <template>
-  <component :is="data.type" v-bind="data.attrs" :style="style" @click="$emit('click')">
+  <component :is="data.type" v-bind="data.attrs" :style="style" class="mb-0" @click="$emit('click')">
     {{ data.content }}
   </component>
 </template>

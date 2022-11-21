@@ -1,17 +1,15 @@
 <template>
   <div class="vue-dynamic-layout-sections">
-    <div v-for="(section, index) in sections" :key="'section-' + index" :style="style(section)">
-      <b-container
-        :id="'dl-section-' + index"
-        v-bind="{...section.attrs}"
-        class="vue-dynamic-editable dl-section"
-        :data-active="active.section === index"
-
-        @click.self="edit(index)"
-      >
-        <dl-columns v-model="section.columns" :edit-mode="editMode" :section="index" />
-      </b-container>
-    </div>
+    <b-container
+      v-for="(section, index) in sections"
+      :id="'dl-section-' + index"
+      :key="'section-' + index"
+      v-bind="{...section.attrs}"
+      class="vue-dynamic-editable dl-section" :data-active="active.section === index" :style="style(section)"
+      @click.self="edit(index)"
+    >
+      <dl-columns v-model="section.columns" :edit-mode="editMode" :section="index" />
+    </b-container>
   </div>
 </template>
 <script>
