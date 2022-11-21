@@ -25,6 +25,7 @@
   </div>
 </template>
 <script>
+import { computed } from 'vue'
 import DlSections from './Sections.vue'
 import DlEditor from './editor/Editor.vue'
 export default {
@@ -77,7 +78,7 @@ export default {
     return {
       active: this.active,
       setActive: this.setActive,
-      isEditing: this.editMode
+      isEditing: computed(() => this.showEditor)
     }
   },
   methods: {
