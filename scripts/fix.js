@@ -116,8 +116,18 @@ const fixPageContents = async () => {
   }
 }
 
+const markContactsAsRead = async () => {
+  const Contact = mongoose.model('Contact')
+  const contacts = await Contact.find()
+  for (const contact of contacts) {
+    contact.read = true
+    await contact.save()
+  }
+}
+
 const fix = async () => {
   await fixPageContents()
+  await markContactsAsRead()
   process.exit()
 }
 

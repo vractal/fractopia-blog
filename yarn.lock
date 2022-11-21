@@ -953,11 +953,6 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@caohenghu/vue-colorpicker@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@caohenghu/vue-colorpicker/-/vue-colorpicker-1.2.4.tgz#1595f47b9e25b278c73318a812c0df9e989a90c0"
-  integrity sha512-2YvCiBOnA9IANRJtw9rqIhVeJZPRPgO9gmFi3qfNgs1IEl7PFlcRx17VD1UF2L97PEk5GaxmrfCdCY15L09UQg==
-
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"

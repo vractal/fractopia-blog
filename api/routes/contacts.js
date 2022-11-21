@@ -6,13 +6,35 @@ const Contact = mongoose.model('Contact')
 
 router.get('/', auth.admin, (req, res) => {
   const query = {}
-  Contact.find(query).sort('name').exec((err, contacts) => {
+  Contact.find(query).sort({ createdAt: -1 }).exec((err, contacts) => {
     if (err) {
       res.status(422).send(err.message)
     } else {
       res.json(contacts)
     }
   })
+})
+
+router.get('/unread', auth.admin, (req, res) => {
+  const query = {
+    read: { $ne: true }
+  }
+  Contact.count(query).exec((err, contactsQtd) => {
+    if (err) {
+      res.status(422).send(err.message)
+    } else {
+      res.json(contactsQtd)
+    }
+  })
+})
+
+router.get('/:id', auth.admin, async (req, res) => {
+  const contact = await Contact.findById(req.params.id)
+  if (!contact.read) {
+    contact.read = true
+    await contact.save()
+  }
+  res.json(contact)
 })
 
 router.post('/contact', (req, res) => {
