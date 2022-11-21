@@ -48,6 +48,7 @@
                   :title="'Seção ' + (active.section + 1)"
                   @input="changed"
                   @remove="removeSection"
+                  @duplicate="duplicateSection"
                   @close="setSection(null)"
                 />
               </div>
@@ -138,6 +139,11 @@ export default {
       const active = this.active.section
       this.setSection(null)
       this.sections = this.sections.filter((section, i) => i !== active)
+      this.changed()
+    },
+    duplicateSection() {
+      const active = this.active.section
+      this.sections.splice(active, 0, JSON.parse(JSON.stringify(this.sections[active])))
       this.changed()
     },
     showSavedAlert() {

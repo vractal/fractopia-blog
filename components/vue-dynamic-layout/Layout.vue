@@ -22,11 +22,9 @@
     >
       <b-icon-pencil-square class="mr-2" /> Editar conteúdo
     </b-btn>
-    <pre>{{ sections }}</pre>
   </div>
 </template>
 <script>
-import { computed } from 'vue'
 import DlSections from './Sections.vue'
 import DlEditor from './editor/Editor.vue'
 export default {

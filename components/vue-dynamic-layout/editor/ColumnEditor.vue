@@ -35,6 +35,7 @@
                         @input="changed"
                         @close="setComponent(null)"
                         @remove="removeComponent"
+                        @duplicate="duplicateComponent"
                       />
                     </div>
                   </div>
@@ -88,8 +89,11 @@
                 </b-form-group>
               </div>
               <div class="text-right">
+                <b-btn variant="info" size="sm" @click="$emit('duplicate')">
+                  Duplicar
+                </b-btn>
                 <b-btn variant="danger" size="sm" @click="$emit('remove')">
-                  <b-icon-trash />
+                  Remover
                 </b-btn>
               </div>
             </div>
@@ -161,6 +165,14 @@ export default {
         (component, i) => i !== this.active.component
       )
       this.setComponent(null)
+      this.changed()
+    },
+    duplicateComponent() {
+      this.form.components.splice(
+        this.active.component + 1,
+        0,
+        JSON.parse(JSON.stringify(this.form.components[this.active.component]))
+      )
       this.changed()
     },
     changed() {

@@ -210,8 +210,11 @@
               </b-form-group>
             </div>
             <div class="text-right">
+              <b-btn variant="info" size="sm" @click="$emit('duplicate')">
+                Duplicar
+              </b-btn>
               <b-btn variant="danger" size="sm" @click="$emit('remove')">
-                <b-icon-trash />
+                Remover
               </b-btn>
             </div>
           </div>

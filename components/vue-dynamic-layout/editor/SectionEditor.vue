@@ -34,6 +34,7 @@
                   @input="changed"
                   @close="setColumn(null)"
                   @remove="removeColumn"
+                  @duplicate="duplicateColumn"
                 />
               </div>
             </div>
@@ -71,8 +72,11 @@
                 </b-form-group>
               </div>
               <div class="text-right">
+                <b-btn variant="info" size="sm" @click="$emit('duplicate')">
+                  Duplicar
+                </b-btn>
                 <b-btn variant="danger" size="sm" @click="$emit('remove')">
-                  <b-icon-trash />
+                  Remover
                 </b-btn>
               </div>
             </div>
@@ -144,6 +148,11 @@ export default {
       const active = this.active.column
       this.setColumn(null)
       this.form.columns = this.form.columns.filter((column, i) => i !== active)
+      this.changed()
+    },
+    duplicateColumn() {
+      const active = this.active.column
+      this.form.columns.splice(active, 0, { ...this.form.columns[active] })
       this.changed()
     },
     changed() {
