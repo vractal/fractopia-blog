@@ -9,6 +9,9 @@
               <b-icon-eye />
             </n-link>
           </template>
+          <template v-slot:cell(createdAt)="data">
+            {{ $moment(data.value).format("DD/MM/YYYY HH:mm") }}
+          </template>
         </b-table>
         <b-alert v-else show variant="dark" class="text-center">Nenhum item encontrado</b-alert>
       </div>
@@ -34,6 +37,7 @@ export default {
       table: [
         { key: 'name', label: 'Nome' },
         { key: 'email', label: 'Email' },
+        { key: 'createdAt', label: 'Enviada em' },
         { key: 'actions', label: '', class: 'text-right' }
       ]
     }

@@ -96,7 +96,7 @@ export default {
     defaultLocale: 'pt-br',
     locales: ['pt-br'],
     timezone: true,
-    defaultTimezone: 'utc'
+    defaultTimezone: 'America/Sao_Paulo'
   },
   fontawesome: {
     icons: {

@@ -51,4 +51,17 @@ router.post('/contact', (req, res) => {
   })
 })
 
+router.delete('/:id', auth.admin, (req, res) => {
+  Contact.findOne({
+    _id: req.params.id
+  }).exec((err, contact) => {
+    if (err) {
+      res.status(422).send(err.message)
+    } else {
+      contact.remove()
+      res.send(contact)
+    }
+  })
+})
+
 module.exports = router

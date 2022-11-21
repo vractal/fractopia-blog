@@ -120,8 +120,12 @@ const markContactsAsRead = async () => {
   const Contact = mongoose.model('Contact')
   const contacts = await Contact.find()
   for (const contact of contacts) {
-    contact.read = true
-    await contact.save()
+    if (contact.email === 'sample@email.tst') {
+      await contact.remove()
+    } else {
+      contact.read = true
+      await contact.save()
+    }
   }
 }
 
