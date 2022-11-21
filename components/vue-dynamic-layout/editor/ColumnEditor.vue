@@ -3,7 +3,7 @@
     <div>
       <div>
         <b-tabs class="column-tabs">
-          <b-tab title="Componentes" active>
+          <b-tab lazy title="Componentes" active>
             <div class="">
               <div class="p-2">
                 <draggable v-model="form.components" tag="div" @end="changed">
@@ -51,7 +51,7 @@
               </div>
             </div>
           </b-tab>
-          <b-tab title="Configurações">
+          <b-tab lazy title="Configurações">
             <div class="px-3 py-3 dl-form">
               <div>
                 <b-form-group

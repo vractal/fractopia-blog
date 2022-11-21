@@ -9,6 +9,10 @@ export default {
     value: {
       type: String,
       default: null
+    },
+    loaded: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -18,7 +22,10 @@ export default {
   },
   methods: {
     changeColor(color) {
-      this.$emit('input', color)
+      if (this.loaded) {
+        this.$emit('input', color)
+      }
+      this.loaded = true
     },
     openSucker(isOpen) {
       if (isOpen) {

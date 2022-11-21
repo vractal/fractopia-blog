@@ -3,7 +3,7 @@
     <div>
       <div>
         <b-tabs class="section-tabs">
-          <b-tab title="Colunas" active>
+          <b-tab lazy title="Colunas" active>
             <div class="">
               <div class="p-2">
                 <draggable v-model="form.columns" tag="div" class="d-inline-block" @end="changed">
@@ -39,7 +39,7 @@
               </div>
             </div>
           </b-tab>
-          <b-tab title="Configuração">
+          <b-tab lazy title="Configuração">
             <div class="px-3 py-3 dl-form">
               <div>
                 <b-form-group label="O conteúdo deve ocupar toda a largura da tela?">

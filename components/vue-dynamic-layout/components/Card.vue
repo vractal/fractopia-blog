@@ -1,6 +1,6 @@
 <template>
   <component :is="attrs.href && !isEditing ? 'a' : 'div'" :href="attrs.href" :target="attrs.href && attrs.href.startsWith('http') ? '_blank' : ''">
-    <b-card v-if="attrs.orientation === 'vertical'" no-body :style="style" v-bind="{...attrs, header: null, footer: null}" :img-src="attrs['img-src'] ? attrs['img-src'].url : ''" :bg-variant="attrs['bg-variant'] || 'primary'" class="mb-3" @click="$emit('click')">
+    <b-card v-if="attrs.orientation === 'vertical'" no-body :style="style" v-bind="{...attrs, header: null, footer: null}" :img-src="attrs['img-src'] ? attrs['img-src'].url : ''" :bg-variant="attrs['bg-variant'] || 'primary'" @click="$emit('click')">
       <b-card-header v-if="attrs.header" :style="headerStyle">
         {{ attrs.header }}
       </b-card-header>
@@ -20,7 +20,7 @@
         {{ attrs.footer }}
       </b-card-footer>
     </b-card>
-    <b-card v-else :style="style" no-body class="overflow-hidden mb-3" v-bind="{...attrs, 'img-src': null, header: null, footer: null}" :bg-variant="attrs['bg-variant'] || 'primary'" @click="$emit('click')">
+    <b-card v-else :style="style" no-body class="overflow-hidden" v-bind="{...attrs, 'img-src': null, header: null, footer: null}" :bg-variant="attrs['bg-variant'] || 'primary'" @click="$emit('click')">
       <b-card-header v-if="attrs.header" :style="headerStyle">
         {{ attrs.header }}
       </b-card-header>
