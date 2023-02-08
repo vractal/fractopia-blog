@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form-group label="Links">
+    <b-form-group :label="label">
       <div v-for="(link, index) in value" :key="index" class="mb-3">
         <b-link v-bind="link"><b-icon-link /> <strong>{{ link.title }}</strong></b-link>
         <b-link class="ml-1 outline-primary" size="sm" @click="remove(index)"><b-icon-trash /> </b-link>
@@ -33,6 +33,10 @@ export default {
     value: {
       type: Array,
       default: () => []
+    },
+    label: {
+      type: String,
+      default: 'Links'
     }
   },
   data() {

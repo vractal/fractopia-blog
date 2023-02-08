@@ -4,6 +4,7 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
+import colors from '../assets/css/colors.sass'
 
 const options = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -41,7 +42,7 @@ const options = [
   }],
 
   [{
-    color: []
+    color: Object.values(colors)
   }, {
     background: []
   }], // dropdown with defaults from theme
@@ -52,13 +53,18 @@ const options = [
     align: []
   }],
   ['image', 'video', 'link', 'iframe'],
-  ['clean'] // remove formatting button
+  ['clean'], // remove formatting button
+  ['fullscreen']
 ]
 Vue.use(VueQuillEditor, {
   modules: {
     toolbar: {
       container: options,
       handlers: {
+        fullscreen() {
+          const quillEditorTag = document.getElementsByClassName('quill-editor')[0]
+          quillEditorTag.classList.toggle('fullscreen')
+        },
         image: () => {
           document.getElementById('quillfile').click()
         },

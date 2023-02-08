@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
+const { downloadBase64 } = require('./utils')
 
 const ProductSchema = mongoose.Schema({
   deleted: Boolean,
@@ -62,6 +63,10 @@ ProductSchema.virtual('orders', {
   localField: '_id',
   foreignField: 'items.product',
   options: { match: { deleted: { $ne: true } } }
+})
+
+ProductSchema.pre('save', function() {
+  this.content = downloadBase64(this.content, this.slug)
 })
 
 const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema)

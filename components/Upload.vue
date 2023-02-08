@@ -7,8 +7,12 @@
       <b-modal :id="'new-attachment-modal-' + inputId" title="Selecione ou envie" hide-footer size="lg">
         <div class="text-center">
           <b-btn variant="success" class="mb-3" @click="uploadClick">
-            <b-icon-upload />
+            <b-icon-plus />
             Envie um arquivo
+          </b-btn>
+          <b-input v-model="file_url" placeholder="Inserir link do arquivo" class="mb-3" />
+          <b-btn v-if="file_url && file_url.startsWith('http')" variant="success" class="mb-3" @click="saveFromUrl">
+            Salvar link
           </b-btn>
           <div v-if="attachments">
             <div v-if="attachments.length">
@@ -35,7 +39,7 @@
             <tbody>
               <tr v-for="(attachment, index) in preview" :key="index">
                 <td class="img-td">
-                  <b-img v-if="attachment.thumb" :src="attachment.thumb || attachment.url" width="100" thumbnail />
+                  <img v-if="attachment.thumb" :src="attachment.thumb || attachment.url" width="100" thumbnail>
                   <div v-else style="width: 100px; height: 100px;" class="text-center m-auto">
                     <b-icon-image v-if="attachment.type === 'images'" class="thumb-icon" />
                     <b-icon-file-earmark-text v-else class="thumb-icon" />
@@ -47,6 +51,11 @@
                   </b-modal>
                   <p v-if="attachment.title" class="mb-2"><strong>{{ attachment.title }}</strong></p>
                   <p v-if="attachment.description" class="mb-3">{{ attachment.description }}</p>
+                  <p v-if="attachment.url" class="mb-3">
+                    <a :href="attachment.url.startsWith('http') ? attachment.url : baseURL + attachment.url" target="_blank">
+                      <small>Ver arquivo</small>
+                    </a>
+                  </p>
                   <b-btn variant="secondary" size="sm" @click="$bvModal.show('attachment-modal-' + inputId + '-' + index)">
                     <b-icon-pencil /> Editar
                   </b-btn>
@@ -58,7 +67,7 @@
       </div>
       <b-button v-if="is_loading" variant="secondary" disabled>
         <b-spinner small />
-        Enviando arquivos...
+        Enviando...
       </b-button>
       <a v-else-if="avatar" @click="upload">
         <b-avatar
@@ -69,8 +78,8 @@
         </b-avatar>
       </a>
       <b-btn v-else variant="success" @click="upload">
-        <b-icon-upload />
-        Enviar {{ type === 'images' ? 'image' + (multiple ? 'ns' : 'm') : 'arquivo' + (multiple ? 's' : '') }}
+        <b-icon-plus />
+        Adicionar {{ type === 'images' ? 'image' + (multiple ? 'ns' : 'm') : 'documento' + (multiple ? 's' : '') }}
       </b-btn>
       <input
         v-show="false"
@@ -137,10 +146,14 @@ export default {
     return {
       is_loading: false,
       attachments: null,
-      search: ''
+      search: '',
+      file_url: null
     }
   },
   computed: {
+    baseURL() {
+      return (this.$axios.defaults.baseURL || '')
+    },
     gallery() {
       if (this.attachments && this.search) {
         return this.attachments.filter((attachment) => {
@@ -194,6 +207,16 @@ export default {
         this.$emit('input', attachment)
       }
       this.$bvModal.hide('attachment-modal-' + this.inputId + '-' + index)
+    },
+    saveFromUrl() {
+      if (this.file_url) {
+        this.$axios
+          .$post('/api/attachments', { url: this.file_url, type: 'documents' })
+          .then((attachment) => {
+            this.callbackUploaded(attachment)
+            this.is_loading = false
+          })
+      }
     },
     uploadFiles(e) {
       this.$bvModal.hide('new-attachment-modal-' + this.inputId)

@@ -4,6 +4,7 @@
       :links="[[title, '/noticias']]"
       :active="post.title"
       :description="post.description"
+      :img="post.image ? baseURL + post.image.url : null"
     />
     <section class="mb-5">
       <Banners v-if="post.image" :items="[post.image]" />
@@ -26,6 +27,10 @@
 <script>
 import features from '@/data/features'
 export default {
+  async asyncData({ params, $axios }) {
+    const post = await $axios.$get('/api/posts/' + params.id)
+    return { post }
+  },
   data () {
     return {
       post: null
@@ -35,15 +40,15 @@ export default {
     settings() {
       return this.$store.state.settings
     },
+    baseURL() {
+      return process.env.BASE_URL
+    },
     title() {
       if (this.settings && this.settings.features && this.settings.features.posts && this.settings.features.posts.title) {
         return this.settings.features.posts.title
       }
       return features.posts.title
     }
-  },
-  async created() {
-    this.post = await this.$axios.$get('/api/posts/' + this.$route.params.id)
   },
   methods: {
     filterbyTag(tag) {

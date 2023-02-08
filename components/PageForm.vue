@@ -32,21 +32,24 @@
             <b-form-textarea v-model="form.description" name="description" />
           </b-form-group>
         </b-col>
-        <b-col md="12">
+        <!-- <b-col md="12">
           <Upload v-model="form.images" label="Banners" type="images" multiple edit-title edit-description edit-link />
-        </b-col>
+        </b-col> -->
         <b-col md="12">
           <Upload v-model="form.docs" label="Documentos" type="documents" multiple edit-title />
         </b-col>
-        <b-col md="12">
+        <b-col v-if="!page" md="12">
+          <SelectTemplate @input="setTemplate" />
+        </b-col>
+        <!-- <b-col md="12">
           <b-form-group label="Conteúdo da página">
             <quill-editor ref="quillEdit" v-model="form.content" />
             <input id="quillfile" type="file" hidden @change="quillUpload">
           </b-form-group>
-        </b-col>
+        </b-col> -->
       </b-row>
       <b-button class="mb-4 mt-4" type="submit" variant="success" :disabled="invalid" block>
-        Salvar
+        Salvar e editar conteúdo da página
       </b-button>
     </b-form>
   </ValidationObserver>
@@ -81,7 +84,8 @@ export default {
         categories: [],
         content: '',
         images: [],
-        tags: []
+        tags: [],
+        sections: null
       }
     }
   },
@@ -91,7 +95,15 @@ export default {
     }
   },
   async created () {
-    this.toForm(this.form, this.page)
+    console.log('asdfasdf', this.$route.query)
+    if (this.page) {
+      this.toForm(this.form, this.page)
+    } else if (this.$route.query.from) {
+      const pageToDuplicate = await this.$axios.$get(`/api/pages/${this.$route.query.from}`)
+      this.toForm(this.form, pageToDuplicate)
+      this.form.title += ' (cópia)'
+      this.form.slug += '-copia'
+    }
     this.currentTags = await this.$axios.$get('/api/pages/current_tags')
   },
   methods: {
@@ -100,13 +112,13 @@ export default {
         const page = await this.$axios.$put('/api/pages/' + this.page._id, this.form)
         if (page) {
           this.$toast.success('Página atualizada com sucesso!')
-          this.$router.push('/conta/pages')
+          this.$router.push('/' + this.form.slug + '?edit=true')
         }
       } else {
         const page = await this.$axios.$post('/api/pages', this.form)
         if (page) {
-          this.$toast.success('Página cadastrada com sucesso!')
-          this.$router.push('/conta/pages')
+          this.$toast.success('Página cadastrada com sucesso! Agora você pode adicionar o conteúdo.')
+          this.$router.push('/' + this.form.slug + '?edit=true')
         }
       }
     },
@@ -114,6 +126,9 @@ export default {
       if (this.form.title) {
         this.form.slug = slugify(this.form.title).toLowerCase()
       }
+    },
+    setTemplate(template) {
+      this.form.sections = template
     }
   }
 }

@@ -16,10 +16,13 @@
             <a :href="'/' + data.value" target="_blank">{{ '/' + data.value }}</a>
           </template>
           <template v-slot:cell(actions)="data">
-            <n-link class="btn btn-info btn-sm" :to="'/conta/pages/' + data.item.slug + '/edit'">
+            <n-link class="btn btn-default btn-sm" :to="{path: '/conta/pages/new', query: { from: data.item.slug } }" title="Duplicar esta página">
+              <b-icon-files />
+            </n-link>
+            <n-link class="btn btn-info btn-sm" :to="'/conta/pages/' + data.item.slug + '/edit'" title="Editar">
               <b-icon-pencil />
             </n-link>
-            <b-button variant="danger" size="sm" @click="remove(data.item)">
+            <b-button variant="danger" size="sm" title="Remover" @click="remove(data.item)">
               <b-icon-trash />
             </b-button>
           </template>

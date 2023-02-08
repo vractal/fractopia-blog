@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const ObjectId = mongoose.Schema.Types.ObjectId
+const { downloadBase64 } = require('./utils')
 
 const PageSchema = mongoose.Schema({
   slug: {
@@ -24,7 +25,7 @@ const PageSchema = mongoose.Schema({
     ref: 'Attachment',
     autopopulate: true
   }],
-  components: [Object]
+  sections: [Object]
 }, {
   timestamps: true,
   toJSON: { virtuals: true }
@@ -34,6 +35,23 @@ PageSchema.plugin(require('mongoose-autopopulate'))
 
 PageSchema.plugin(uniqueValidator, {
   message: 'Esta URL já está sendo usada'
+})
+
+PageSchema.pre('save', function() {
+  this.content = downloadBase64(this.content, this.slug)
+  if (this.sections && this.sections.length) {
+    this.sections.forEach((section, sectionIndex) => {
+      if (section.columns && section.columns.length) {
+        section.columns.forEach((column, columnIndex) => {
+          if (column.components && column.components.length) {
+            column.components.forEach((component, componentIndex) => {
+              component.content = downloadBase64(component.content, this.slug)
+            })
+          }
+        })
+      }
+    })
+  }
 })
 
 const Page = mongoose.models.Page || mongoose.model('Page', PageSchema)

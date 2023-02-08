@@ -124,6 +124,9 @@ a
   &.bg-dark
     color: #fff
 
+.b-sidebar 
+  width: 420px 
+
 .sidebar
   background-color: $primary
   border-radius: 5px
@@ -280,12 +283,27 @@ footer
       // .navbar-collapse
       //   display: block
 
+.quill-editor.fullscreen
+  background: red
+  position: absolute
+  top:  0px
+  right:  0px
+  bottom: 0px
+  left: calc((100vw - 421px) * -1)
+  z-index: 1
+  .ql-fullscreen
+    background-image: url(~assets/img/fullscreen-off.svg) !important
 .ql-iframe
   background-image: url(~assets/img/ql-code.png) !important
   background-size: 20px !important
   background-repeat: no-repeat !important
   background-position: center !important
-.ql-video
+.ql-fullscreen
+  background-image: url(~assets/img/fullscreen.svg) !important
+  background-size: 20px !important
+  background-repeat: no-repeat !important
+  background-position: center !important
+.ql-video[src*="youtube"]
   width: 80%
   margin: auto
   display: block
@@ -299,7 +317,7 @@ footer
 .ql-align-center
   text-align: center
 .dynamic-content
-  background-color: $white
+  // background-color: $white
   // color: #303030
   p
     margin-bottom: 0
@@ -558,13 +576,68 @@ footer
   @media (min-width: 768px)
     width: 100px
 
-.edit-page
-  .dynamic-component
-    &:hover
-      cursor: pointer
-      // border: 1px dotted $light
-      outline: 1px dotted $primary
-    &.active-component
-      outline: 1px dotted $primary
 .pre-wrap
   white-space: pre-wrap
+.alert-success
+  background-color: $success
+  color: #fff
+
+.vue-dynamic-layout 
+  
+  .dl-section, .dl-column
+    padding-top: 16px
+    padding-bottom: 16px
+  .vue-dynamic-layout-editor
+    background-color: $light
+    padding: 15px
+    .btn-sm
+      font-size: 13px
+    legend
+      font-size: 12px
+      padding-bottom: 0
+    .form-group
+      margin-bottom: 10px
+    .section-tabs
+      li
+        margin-bottom: -1px
+        
+      .nav-link
+        font-size: 13px
+        color: $primary
+        &.active
+          background-color: transparent
+          border-radius: 0
+          // color: $primary
+          font-weight: bold
+
+  &.editing
+    position: fixed
+    top: 0
+    background-color: #fff
+    z-index: 11
+    width: 100vw
+    max-width: 100%
+    height: 100vh
+    overflow-x: hidden
+    .vue-dynamic-layout-editor
+      min-height: 100%
+      .vue-dynamic-layout-component-editor
+        background-color: $light
+  .vue-dynamic-layout-edit-grid
+    height: 100%
+    > div
+        overflow-y: auto
+        height: 100%
+  .info-box
+    font-size: 12px
+    text-align: right
+
+  .banners-component
+    .banner-description
+      background-color: $secondary
+      color: #fff
+      padding: 1rem
+      text-align: center
+  .verte__guide > svg
+    border: 1px solid #000 !important
+    border-radius: 50%

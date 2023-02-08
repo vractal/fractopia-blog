@@ -2,32 +2,42 @@
   <div>
     <div v-if="settings" class="home-page">
       <Banners :items="settings.site_banners" />
-      <section class="content bg-light pb-5">
-        <b-container fluid="lg">
-          <div v-if="settings.description" class="text-center px-5 pt-3">
-            <!-- <img src="~/assets/img/logo-laranja.svg" alt="Sobre"> -->
-            <div class="title mt-3">
-              <h4>Sobre</h4>
-              <hr>
-            </div>
-            <h5 class="text-center text-primary">{{ settings.description }}</h5>
-            <b-button to="/sobre" variant="secondary" class="mt-3 btn-home">
-              Saiba mais
-            </b-button>
-          </div>
-          <b-row class="mt-5">
-          </b-row>
-        </b-container>
-      </section>
+      <div class="page">
+        <dl-layout v-model="sections" :can-edit="canEdit" :start-editing="!!$route.query.edit" @save="save" />
+      </div>
     </div>
   </div>
 </template>
-
 <script>
+import DlLayout from '../components/vue-dynamic-layout/Layout.vue'
 export default {
+  components: {
+    DlLayout
+  },
+  data () {
+    return {
+      sections: []
+    }
+  },
   computed: {
-    settings () {
+    settings() {
       return this.$store.state.settings
+    },
+    canEdit() {
+      return (
+        this.$auth.user &&
+        (this.$auth.user.role === 'admin' || this.$auth.user.role === 'super')
+      )
+    }
+  },
+  created() {
+    if (this.settings && this.settings.home_sections) {
+      this.sections = JSON.parse(JSON.stringify(this.settings.home_sections))
+    }
+  },
+  methods: {
+    async save () {
+      await this.$axios.$post('/api/settings', { home_sections: this.sections })
     }
   }
 }

@@ -18,6 +18,7 @@
 </template>
 <script>
 export default {
+  name: 'Banners',
   props: {
     items: {
       type: Array,

@@ -1,6 +1,10 @@
 <template>
   <div class="dashboard">
     <b-breadcrumb :items="breadcrumb" />
+    <n-link v-if="unreadContacts > 0" to="/conta/contacts">
+      <b-alert show variant="danger" class="text-center">{{ unreadContacts == 1 ? '1 Mensagem não lida' : unreadContacts +' Mensagens não lidas' }}</b-alert>
+    </n-link>
+
     <b-list-group v-if="$auth.user.role === 'admin' || $auth.user.role === 'super'">
       <b-list-group-item to="/conta/pages">Páginas</b-list-group-item>
       <b-list-group-item to="/conta/menus">Menus</b-list-group-item>
@@ -23,6 +27,7 @@ export default {
   layout: 'conta',
   data () {
     return {
+      unreadContacts: 0,
       breadcrumb: [
         { text: this.$auth.user.role === 'user' ? 'Minha conta' : 'Painel', active: true }
       ]
@@ -32,6 +37,9 @@ export default {
     settings() {
       return this.$store.state.settings
     }
+  },
+  async created () {
+    this.unreadContacts = await this.$axios.$get('/api/contacts/unread')
   }
 }
 </script>

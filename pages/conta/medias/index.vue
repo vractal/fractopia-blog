@@ -3,6 +3,9 @@
     <b-breadcrumb :items="breadcrumb" />
     <div>
       <div class="text-right mb-3">
+        <a target="_blank" class="mr-2" download :href="downloadUrl">
+          <b-icon-file-spreadsheet /> Exportar
+        </a>
         <b-button variant="success" to="/conta/medias/new">
           <b-icon-plus /> Cadastrar
         </b-button>
@@ -39,7 +42,7 @@
         </div>
         <b-table v-if="medias.data && medias.data.length" :fields="table" :items="medias.data" responsive="sm">
           <template v-slot:cell(title)="data">
-            <n-link :to="'/biblioteca/' + data.item._id">
+            <n-link :to="{ path: '/biblioteca', query: { media: data.item._id} }">
               <small><strong>{{ data.value }}</strong></small>
             </n-link>
           </template>
@@ -48,7 +51,7 @@
           </template>
           <template v-slot:cell(categories)="data">
             <div v-if="data.value && data.value.length">
-              <b-badge v-for="category in data.value" :key="category" variant="primary">{{ category }}</b-badge>
+              <b-badge v-for="category in data.value" :key="category" variant="primary" class="mr-1">{{ category }}</b-badge>
             </div>
           </template>
           <template v-slot:cell(actions)="data">
@@ -80,6 +83,11 @@
 </template>
 <script>
 import features from '@/data/features'
+
+const objectToquery = (obj) => {
+  return Object.keys(obj).map(key => key + '=' + obj[key]).join('&')
+}
+
 export default {
   layout: 'conta',
   data () {
@@ -101,6 +109,9 @@ export default {
     }
   },
   computed: {
+    downloadUrl() {
+      return '/api/medias/export?' + objectToquery(this.filters)
+    },
     filterOptions() {
       return this.$store.state.media_filters
     },
